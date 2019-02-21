@@ -1,4 +1,8 @@
 #include "Token.h"
+#include <iostream>
+#include <iomanip>
+
+using std::setw;
 
 using namespace std;
 
@@ -20,6 +24,48 @@ void TokenClass::CheckReserved() {
 }
 
 ostream & operator<<(ostream & out, const TokenClass & tc) {
-    out << tc.GetTokenType() << " " << tc.GetTokenTypeName() << " " << tc.GetLexeme();
-    return out;
+    switch (tc.GetTokenType())
+    {
+        case 10:
+            out << tc.GetLexeme() << "   | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]  |";
+            return out;
+        case 12:
+            out << tc.GetLexeme() << "    | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]       |";
+            return out;
+        case 16:
+            out << tc.GetLexeme() << "    | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]  |";
+            return out;
+        case 17:
+            out << tc.GetLexeme() << "    | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]     |";
+            return out;
+        case 18:
+            out << tc.GetLexeme() << "    | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]     |";
+            return out;
+        case 19:
+            out << tc.GetLexeme() << "    | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]     |";
+            return out;
+        case 11:
+            out << tc.GetLexeme() << "    | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "] |";
+            return out;
+        case 2:
+            out << tc.GetLexeme() << "  | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]         |";
+            return out;
+        case 21:
+            out << tc.GetLexeme() << "  | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "] |";
+            return out;
+        case 24:
+            out << tc.GetLexeme() << "    | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]    |";
+            return out;
+        case 22:
+            if ( stoi(tc.GetLexeme()) >= 100 ) {
+                // std::cout << "hello world" << std::endl;
+                out << tc.GetLexeme() << "  | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]    |";
+                return out;
+            }
+            out << tc.GetLexeme() << "   | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]    |";
+            return out;
+        default:
+            out << tc.GetLexeme() << " | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]        |";
+            return out;
+    }
 }

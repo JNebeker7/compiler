@@ -13,13 +13,22 @@ bool test_token_type() {
 }
 
 bool test_scanner() {
-	ScannerClass s("code.txt");
+	ScannerClass s("code.cpp");
 	TokenClass t;
+	cout << "+----------+------+----------------+" << endl;
+	cout << "| Line #   | NAME | TYPE           |" << endl;
+	cout << "+----------+------+----------------+" << endl;
 	do {
 		t = s.GetNextToken();
 		int lineNumber = s.getLineNumber();
-		cout << "Line[" << lineNumber << "] " << t << endl;
+		if (lineNumber < 10) {
+			cout << "| Line[" << lineNumber << "]  | " << t << endl;
+		}
+		if (lineNumber >= 10) {
+			cout << "| Line[" << lineNumber << "] | " << t << endl;
+		}
 	} while (t.GetTokenType() != ENDFILE_TOKEN);
+	cout << "+----------+------+----------------+" << endl;
 	return true;
 }
 

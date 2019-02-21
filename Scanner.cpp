@@ -24,7 +24,6 @@ TokenClass ScannerClass::GetNextToken() {
 		c = mFin.get();
 		if ( c == '\n' ) {
 			mLineNumber++;
-			// std::cout << "new line " << std::endl;
 		}
 		lexeme += c;
 		state = sm.UpdateState(c, tt);
@@ -32,13 +31,21 @@ TokenClass ScannerClass::GetNextToken() {
 			lexeme = "";
         }
 		if ( state == BAD_STATE ) {
-			std::cerr << "bad character __" << lexeme << "__ at a line number" << std::endl; 
-			throw "Bad character";	
+			MSG("Bad character"  << lexeme << " on line " << mLineNumber )
+			exit(2);
 		}
+		// if ( state == CANTMOVE_STATE ) {
+		// 	MSG("Bad character"  << lexeme << " on line " << mLineNumber );
+		// 	throw "bad character";
+		// }
 		
 	} while (state != CANTMOVE_STATE);
 	if ( c == '\n' ) {
 		mLineNumber--;
+	}
+	if ( tt == BAD_TOKEN ) {
+		MSG("Bad character "  << lexeme << " on line " << mLineNumber )
+		exit(2);
 	}
 	mFin.unget();
 	lexeme.pop_back();

@@ -17,6 +17,8 @@ StateMachineClass::StateMachineClass() {
 
 	// spin on whitespace
 	mLegalMoves[START_STATE][WHITESPACE_CHAR] = START_STATE;
+	// returen char
+	mLegalMoves[START_STATE][RETURN_CHAR] = START_STATE;
 	// letter and underscore and digit
 	mLegalMoves[START_STATE][LETTER_CHAR] = IDENTIFIER_STATE;
 	mLegalMoves[START_STATE][UNDERSCORE_CHAR] = IDENTIFIER_STATE;
@@ -45,7 +47,20 @@ StateMachineClass::StateMachineClass() {
 	mLegalMoves[START_STATE][PLUS_CHAR] = PLUS_STATE;
 	// EOF
 	mLegalMoves[START_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
+
+	// comments initial
+	for ( int i = 0; i < LAST_CHAR; i++ ) {
+		mLegalMoves[LINE_COMMENT_STATE][i] = LINE_COMMENT_STATE;
+	}
 	// comments
+	mLegalMoves[START_STATE][DIVIDE_CHAR] = DIVIDE_STATE;
+	mLegalMoves[DIVIDE_STATE][DIVIDE_CHAR] = LINE_COMMENT_STATE;
+	// block comments
+	mLegalMoves[DIVIDE_STATE][STAR_CHAR] = BLOCK_COMMENT_STATE;
+
+	mLegalMoves[LINE_COMMENT_STATE][RETURN_CHAR] = START_STATE;
+	mLegalMoves[LINE_COMMENT_STATE][ENDFILE_CHAR] = START_STATE;
+	// end of comments
 
 	// block comments
 	for ( int i = 0; i < LAST_CHAR; i++ ) {
@@ -53,7 +68,7 @@ StateMachineClass::StateMachineClass() {
 	}
 	mLegalMoves[BLOCK_COMMENT_STATE][STAR_CHAR] = HALF_DONE_STATE;
 	for ( int i = 0; i < LAST_CHAR; i++ ) {
-		mLegalMoves[BLOCK_COMMENT_STATE][STAR_CHAR] = HALF_DONE_STATE;
+		mLegalMoves[HALF_DONE_STATE][i] = BLOCK_COMMENT_STATE;
 	}
 	mLegalMoves[HALF_DONE_STATE][DIVIDE_CHAR] = START_STATE;
 	// end of block comments
@@ -98,13 +113,16 @@ MachineState StateMachineClass::UpdateState(char currentCharacter,
 		case '=': charType = EQUAL_CHAR; break;
 		case ';': charType = SEMICOLON_CHAR; break;
 		case '/': charType = DIVIDE_CHAR; break;
+		case '*': charType = STAR_CHAR; break;
+		case '!': charType = NOT_CHAR; break;
+		default: charType = BAD_CHAR; break;
 	}
 
 	if ( is_digit ) charType = DIGIT_CHAR;
 	if ( is_alpha ) charType = LETTER_CHAR;
 	if ( is_whitespace ) charType = WHITESPACE_CHAR;
 	if ( currentCharacter == EOF ) charType = ENDFILE_CHAR;
-	// if ( currentCharacter == '\n' ) std::cout << " " << std::endl;
+	if ( currentCharacter == '\n' ) charType = RETURN_CHAR;
 
 	correspondingTokenType = mCorrespondingTokenTypes[mCurrentState];
 	mCurrentState = mLegalMoves[mCurrentState][charType];
