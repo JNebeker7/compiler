@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -16,10 +17,19 @@ public:
     };
     SymbolTable();
     bool Exists(const string & s);
+    void AddEntry(const string & s);
+    int GetValue(const string & s);
+    void SetValue(const string & s, int v);
+    int GetIndex(const string & s);
+    int GetCount();
 
+    void CoutVariables();
+
+    // bool operator==(const string & rhs) const;
 private:
     std::vector<Variable> variables;
 };
+
 
 #endif /* _SYMBOL_H_ */
 /* Local Variables: */

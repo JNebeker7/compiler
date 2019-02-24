@@ -1,6 +1,6 @@
 CXXFLAGS := -std=c++11 -g
 CXX := g++
-OBJECTS := Main.o Token.o StateMachine.o Scanner.o
+OBJECTS := Main.o Token.o StateMachine.o Scanner.o Symbol.o
 PROGRAM := main
 TARGETS := $(PROGRAM)
 
