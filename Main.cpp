@@ -1,5 +1,6 @@
 #include "Scanner.h"
 #include "Symbol.h"
+#include "Debug.h"
 
 using std::cout;
 using std::endl;
@@ -36,14 +37,24 @@ bool test_scanner() {
 bool test_symbols() {
 	cout << "symbol test" << endl;
 	SymbolTable s;
-	s.AddEntry("second");
-	s.AddEntry("third");
-	if (s.Exists("third")) {
-		cout << "found third" << endl;
-	}
-	else
-		cout << "third not found" << endl;
-
+	MSG("setting x = 5");
+	s.AddEntry("x");
+	s.SetValue("x", 5);
+	s.CoutVariables();
+	MSG("setting y = 11");
+	s.AddEntry("y");
+	s.SetValue("y", 11);
+	s.CoutVariables();
+	MSG("getting index of y");
+	int index = s.GetIndex("y");
+	MSG("y = " << index);
+	MSG("Getting number of variables");
+	int count = s.GetCount();
+	MSG("count is " << count);
+	MSG("adding entry x again ");
+	s.AddEntry("x");
+	MSG("Setting new value to x ");
+	s.SetValue("x", 42);
 	s.CoutVariables();
 	return true;
 }
