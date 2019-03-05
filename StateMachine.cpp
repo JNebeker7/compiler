@@ -115,7 +115,7 @@ MachineState StateMachineClass::UpdateState(char currentCharacter,
 		case '/': charType = DIVIDE_CHAR; break;
 		case '*': charType = STAR_CHAR; break;
 		case '!': charType = NOT_CHAR; break;
-		default: charType = BAD_CHAR; break;
+		default:  charType = BAD_CHAR; break;
 	}
 
 	if ( is_digit ) charType = DIGIT_CHAR;
