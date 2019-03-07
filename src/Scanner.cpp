@@ -1,7 +1,7 @@
-#include "Scanner.h"
-#include "StateMachine.h"
+#include "../include/Scanner.h"
+#include "../include/StateMachine.h"
 #include <string>
-#include "Debug.h"
+#include "../include/Debug.h"
 
 using std::string;
 

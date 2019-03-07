@@ -1,6 +1,6 @@
-#include "Scanner.h"
-#include "Symbol.h"
-#include "Debug.h"
+#include "include/Scanner.h"
+#include "include/Symbol.h"
+#include "include/Debug.h"
 
 using std::cout;
 using std::endl;

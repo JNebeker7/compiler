@@ -1,14 +1,21 @@
-CXXFLAGS := -std=c++11 -g
+OUT = lib/alib.a
 CXX := g++
-OBJECTS := Main.o Token.o StateMachine.o Scanner.o Symbol.o
-PROGRAM := main
-TARGETS := $(PROGRAM)
+CXXFLAGS := -std=c++11 -g
+OBJDIR = obj
+SRCDIR = src
+INC = -Iinc
 
-all: $(TARGETS)
+_OBJS = Scanner.o StateMachine.o Symbol.o Token.o
+OBJS = $(patsubst %,$(OBJDIR)/%,$(_OBJS))
 
-$(PROGRAM): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CXX) $(CXXFLAGS) -c $(INC) -o $@ $<
+
+$(OUT): $(OBJS)
+	ar rvs $(OUT) $^
+
+.PHONY: clean
 
 clean:
-	rm -f $(TARGETS)
-	rm -f *.o *~
+	rm -f $(OBJDIR)/*.o $(OUT)

@@ -1,6 +1,6 @@
-#include "Symbol.h"
+#include "../include/Symbol.h"
 #include <algorithm>
-#include "Debug.h"
+#include "../include/Debug.h"
 
 using namespace std;
 using std::cout;
