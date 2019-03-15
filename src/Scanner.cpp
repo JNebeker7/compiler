@@ -4,6 +4,7 @@
 #include "../include/Debug.h"
 
 using std::string;
+int gHello = 0;
 
 ScannerClass::ScannerClass(string file) {
 	mFin.open(file);
