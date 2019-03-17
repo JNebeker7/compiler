@@ -1,7 +1,7 @@
-#include "../include/Scanner.h"
-#include "../include/StateMachine.h"
+#include "include/Scanner.h"
+#include "include/StateMachine.h"
 #include <string>
-#include "../include/Debug.h"
+#include "include/Debug.h"
 
 using std::string;
 int gHello = 0;

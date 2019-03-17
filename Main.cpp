@@ -1,6 +1,7 @@
 #include "include/Scanner.h"
 #include "include/Symbol.h"
 #include "include/Debug.h"
+#include "include/Node.h"
 
 using std::cout;
 using std::endl;
@@ -59,12 +60,24 @@ bool test_symbols() {
 	return true;
 }
 
+bool test_node() {
+	cout << "testing nodes" << endl;
+	StatementGroupNode * statementGroup = new StatementGroupNode();
+	BlockNode * block = new BlockNode(statementGroup);
+	ProgramNode * program = new ProgramNode(block);
+	StartNode * start = new StartNode(program);
+
+	delete start; 
+	return true;
+}
+
 int main() {
-	const int tests_count = 3;
+	const int tests_count = 4;
 	Tests tests[tests_count] = {
 		test_token_type,
 		test_scanner,
-		test_symbols
+		test_symbols,
+		test_node,
 	};
 
 	for (int i = 0; i < tests_count; i++) {
