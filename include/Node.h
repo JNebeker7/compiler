@@ -68,67 +68,70 @@ private:
     vector<StatementNode *> mStatementGroupNodes;
 };
 
-// class DeclarationStatmentNode : public StatementNode {
-// public:
-//     DeclarationStatmentNode(IdentifierNode * IdentifierNode) 
-//                             : mIdentifierNode(IdentifierNode) {};
-//     ~DeclarationStatmentNode();
-// protected:
-//     IdentifierNode * mIdentifierNode;
-// };
+class DeclarationStatmentNode : public StatementNode {
+public:
+    DeclarationStatmentNode(IdentifierNode * IdentifierNode) 
+                            : mIdentifierNode(IdentifierNode) {};
+    ~DeclarationStatmentNode();
+    void Interpret();
+protected:
+    IdentifierNode * mIdentifierNode;
+};
 
 // // 8
-// class AssignmentStatementNode : public StatementNode {
-// public:
-//     AssignmentStatementNode(IdentifierNode * IdentifierNode, ExpressionNode * ExpressionNode) 
-//                             : mIdentifierNode(IdentifierNode), mExpressionNode(ExpressionNode) {};
-//     ~AssignmentStatementNode();
-// private:
-//     IdentifierNode * mIdentifierNode;
-//     ExpressionNode * mExpressionNode;
-// };
+class AssignmentStatementNode : public StatementNode {
+public:
+    AssignmentStatementNode(IdentifierNode * IdentifierNode, ExpressionNode * ExpressionNode) 
+                            : mIdentifierNode(IdentifierNode), mExpressionNode(ExpressionNode) {};
+    ~AssignmentStatementNode();
+    void Interpret();
+private:
+    IdentifierNode * mIdentifierNode;
+    ExpressionNode * mExpressionNode;
+};
 
 // // 9
-// class CoutStatementNode : public StatementNode {
-// public:
-//     CoutStatementNode();
-//     ~CoutStatementNode();
-// private:
-//     ExpressionNode * mExpressionNode;
-// };
+class CoutStatementNode : public StatementNode {
+public:
+    CoutStatementNode();
+    ~CoutStatementNode();
+    void Interpret();
+private:
+    ExpressionNode * mExpressionNode;
+};
 
 // // 10
-// class ExpressionNode {
-// public:
-//     virtual ~ExpressionNode();
-//     virtual int Evaluate() = 0;   
-// };
+class ExpressionNode {
+public:
+    virtual ~ExpressionNode();
+    virtual int Evaluate() = 0;   
+};
 
 // // 11
-// class IntegerNode : public ExpressionNode {
-// public:
-//     IntegerNode(int value)
-//                 : mValue(value) {};
-//     ~IntegerNode();
-//     int Evaluate();
-// private:
-//     int mValue;
-// };
+class IntegerNode : public ExpressionNode {
+public:
+    IntegerNode(int value)
+                : mValue(value) {};
+    ~IntegerNode();
+    int Evaluate();
+private:
+    int mValue;
+};
 
 // // 12
-// class IdentifierNode : public ExpressionNode {
-// public:
-//     IdentifierNode(string label, SymbolTable * SymbolTable)
-//                     : mLabel(label), mSymbolTable(SymbolTable) {};
-//     ~IdentifierNode();
-//     void DeclareVariable();
-//     void SetValue(int v);
-//     int GetIndex();
-//     int Evaluate();
-// private:
-//     string mLabel;
-//     SymbolTable * mSymbolTable;
-// };
+class IdentifierNode : public ExpressionNode {
+public:
+    IdentifierNode(string label, SymbolTable * SymbolTable)
+                    : mLabel(label), mSymbolTable(SymbolTable) {};
+    ~IdentifierNode();
+    void DeclareVariable();
+    void SetValue(int v);
+    int GetIndex();
+    int Evaluate();
+private:
+    string mLabel;
+    SymbolTable * mSymbolTable;
+};
 
 // // 13
 // class BinaryOperatorNode : public ExpressionNode {

@@ -2,6 +2,7 @@
 #include "include/Symbol.h"
 #include "include/Debug.h"
 #include "include/Node.h"
+#include "include/Symbol.h"
 
 using std::cout;
 using std::endl;
@@ -62,7 +63,22 @@ bool test_symbols() {
 
 bool test_node() {
 	cout << "testing nodes" << endl;
+	SymbolTable symbolTable = SymbolTable();
+
+	// IdentifierNode * identifer2 = new IdentifierNode("")
+
+	// sum = int + int;
+	IntegerNode * intNode = new IntegerNode(11);
+	IdentifierNode * identifierInteger = new IdentifierNode("y", &symbolTable);
+	AssignmentStatementNode * assignment = new AssignmentStatementNode(identifierInteger, intNode);
+
+	// int sum;
+	IdentifierNode * indentifierDeclaration = new IdentifierNode("x", &symbolTable);
+	DeclarationStatmentNode * declaration = new DeclarationStatmentNode(indentifierDeclaration);
+
 	StatementGroupNode * statementGroup = new StatementGroupNode();
+	// statementGroup->AddStatement();
+	
 	BlockNode * block = new BlockNode(statementGroup);
 	ProgramNode * program = new ProgramNode(block);
 	StartNode * start = new StartNode(program);

@@ -3,35 +3,34 @@
 Node::~Node(){
     // MSG("NODE DELETE");
 }
+
 StartNode::~StartNode() {
     MSG("START DELETE");
     delete this->mProgramNode; 
 }
-ProgramNode::~ProgramNode() {
-    MSG("PROGRAM DELETE");
-    delete this->mBlockNode;
-}
-BlockNode::~BlockNode() {
-    MSG("BLOCK DELETE");
-    delete this->mStatementGroupNode;
-}
-// IntegerNode::~IntegerNode() {}
-
 void StartNode::Interpret() {
 
 }
 
+ProgramNode::~ProgramNode() {
+    MSG("PROGRAM DELETE");
+    delete this->mBlockNode;
+}
 void ProgramNode::Interpret() {
 
 }
 
+BlockNode::~BlockNode() {
+    MSG("BLOCK DELETE");
+    delete this->mStatementGroupNode;
+}
 void BlockNode::Interpret() {
 
 }
+// IntegerNode::~IntegerNode() {}
 
-void StatementGroupNode::Interpret() {
-    
-}
+
+
 
 void StatementGroupNode::AddStatement( StatementNode * StatementNode ) {
     this->mStatementGroupNodes.push_back( StatementNode );
@@ -43,39 +42,58 @@ StatementGroupNode::~StatementGroupNode() {
         delete mStatementGroupNodes[i];
     }
 }
+void StatementGroupNode::Interpret() {
+    
+}
 
-// DeclarationStatmentNode::~DeclarationStatmentNode() {
-//     delete this->mIdentifierNode;
-// }
+DeclarationStatmentNode::~DeclarationStatmentNode() {
+    delete this->mIdentifierNode;
+}
+void DeclarationStatmentNode::Interpret() {
 
-// AssignmentStatementNode::~AssignmentStatementNode() {
-//     delete this->mExpressionNode;
-//     delete this->mIdentifierNode;
-// }
+}
 
-// CoutStatementNode::~CoutStatementNode() {
-//     delete this->mExpressionNode;
-// }
+AssignmentStatementNode::~AssignmentStatementNode() {
+    delete this->mExpressionNode;
+    delete this->mIdentifierNode;
+}
+void AssignmentStatementNode::Interpret() {
 
-// int IntegerNode::Evaluate() {
-//     return this->mValue;
-// }
+}
 
-// void IdentifierNode::DeclareVariable() {
-//     this->mSymbolTable->AddEntry(this->mLabel);
-// }
+CoutStatementNode::~CoutStatementNode() {
+    delete this->mExpressionNode;
+}
+void CoutStatementNode::Interpret() {
+    
+}
 
-// void IdentifierNode::SetValue(int v) {
-//     this->mSymbolTable->SetValue(this->mLabel, v);
-// }
+ExpressionNode::~ExpressionNode() {
+    // MSG("")
+}
 
-// int IdentifierNode::GetIndex() {
-//     return this->mSymbolTable->GetIndex(this->mLabel);
-// }
+IntegerNode::~IntegerNode() {
+    
+}
+int IntegerNode::Evaluate() {
+    return this->mValue;
+}
 
-// int IdentifierNode::Evaluate() {
-//     return this->mSymbolTable->GetValue(this->mLabel);
-// }
+IdentifierNode::~IdentifierNode() {
+
+}
+void IdentifierNode::DeclareVariable() {
+    this->mSymbolTable->AddEntry(this->mLabel);
+}
+void IdentifierNode::SetValue(int v) {
+    this->mSymbolTable->SetValue(this->mLabel, v);
+}
+int IdentifierNode::GetIndex() {
+    return this->mSymbolTable->GetIndex(this->mLabel);
+}
+int IdentifierNode::Evaluate() {
+    return this->mSymbolTable->GetValue(this->mLabel);
+}
 
 // BinaryOperatorNode::~BinaryOperatorNode() {
 //     delete this->mLeft; delete this->mRight;
