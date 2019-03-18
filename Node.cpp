@@ -54,6 +54,7 @@ void DeclarationStatmentNode::Interpret() {
 }
 
 AssignmentStatementNode::~AssignmentStatementNode() {
+    MSG("ASSIGNMENTSTATEMENT DELETE")
     delete this->mExpressionNode;
     delete this->mIdentifierNode;
 }
@@ -73,14 +74,14 @@ ExpressionNode::~ExpressionNode() {
 }
 
 IntegerNode::~IntegerNode() {
-    
+
 }
 int IntegerNode::Evaluate() {
     return this->mValue;
 }
 
 IdentifierNode::~IdentifierNode() {
-
+    MSG("IDENTIFIERNODE DELETE");
 }
 void IdentifierNode::DeclareVariable() {
     this->mSymbolTable->AddEntry(this->mLabel);

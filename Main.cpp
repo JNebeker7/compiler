@@ -67,17 +67,22 @@ bool test_node() {
 
 	// IdentifierNode * identifer2 = new IdentifierNode("")
 
+	// cout << sum;
+	// CoutStatementNode * coutStatement = new CoutStatementNode();
+
 	// sum = int + int;
 	IntegerNode * intNode = new IntegerNode(11);
 	IdentifierNode * identifierInteger = new IdentifierNode("y", &symbolTable);
-	AssignmentStatementNode * assignment = new AssignmentStatementNode(identifierInteger, intNode);
+	AssignmentStatementNode * assignmentStatement = new AssignmentStatementNode(identifierInteger, intNode);
 
 	// int sum;
 	IdentifierNode * indentifierDeclaration = new IdentifierNode("x", &symbolTable);
-	DeclarationStatmentNode * declaration = new DeclarationStatmentNode(indentifierDeclaration);
+	DeclarationStatmentNode * declarationStatement = new DeclarationStatmentNode(indentifierDeclaration);
 
 	StatementGroupNode * statementGroup = new StatementGroupNode();
-	// statementGroup->AddStatement();
+	// statementGroup->AddStatement(coutStatement);
+	statementGroup->AddStatement(assignmentStatement);
+	statementGroup->AddStatement(declarationStatement);
 	
 	BlockNode * block = new BlockNode(statementGroup);
 	ProgramNode * program = new ProgramNode(block);
