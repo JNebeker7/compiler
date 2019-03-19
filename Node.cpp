@@ -27,10 +27,6 @@ BlockNode::~BlockNode() {
 void BlockNode::Interpret() {
 
 }
-// IntegerNode::~IntegerNode() {}
-
-
-
 
 void StatementGroupNode::AddStatement( StatementNode * StatementNode ) {
     this->mStatementGroupNodes.push_back( StatementNode );
@@ -47,6 +43,7 @@ void StatementGroupNode::Interpret() {
 }
 
 DeclarationStatmentNode::~DeclarationStatmentNode() {
+    // MSG("DECLARATIONSTATEMENT DELETE");
     delete this->mIdentifierNode;
 }
 void DeclarationStatmentNode::Interpret() {
@@ -54,7 +51,7 @@ void DeclarationStatmentNode::Interpret() {
 }
 
 AssignmentStatementNode::~AssignmentStatementNode() {
-    MSG("ASSIGNMENTSTATEMENT DELETE")
+    // MSG("ASSIGNMENTSTATEMENT DELETE")
     delete this->mExpressionNode;
     delete this->mIdentifierNode;
 }
@@ -63,10 +60,11 @@ void AssignmentStatementNode::Interpret() {
 }
 
 CoutStatementNode::~CoutStatementNode() {
+    // MSG("COUTSTATEMENTNODE DELETE");
     delete this->mExpressionNode;
 }
 void CoutStatementNode::Interpret() {
-    
+    this->mExpressionNode->Evaluate();
 }
 
 ExpressionNode::~ExpressionNode() {
@@ -74,7 +72,7 @@ ExpressionNode::~ExpressionNode() {
 }
 
 IntegerNode::~IntegerNode() {
-
+    MSG("INTEGERNODE DELETE");
 }
 int IntegerNode::Evaluate() {
     return this->mValue;
@@ -96,10 +94,11 @@ int IdentifierNode::Evaluate() {
     return this->mSymbolTable->GetValue(this->mLabel);
 }
 
-// BinaryOperatorNode::~BinaryOperatorNode() {
-//     delete this->mLeft; delete this->mRight;
-// }
+BinaryOperatorNode::~BinaryOperatorNode() {
+    MSG("BINARYOPERATORNODE DELETE");
+    delete this->mLeft; delete this->mRight;
+}
 
-// int PlusNode::Evaluate() {
-//     return this->mLeft->Evaluate() + this->mRight->Evaluate();
-// }
+int PlusNode::Evaluate() {
+    return this->mLeft->Evaluate() + this->mRight->Evaluate();
+}

@@ -93,7 +93,8 @@ private:
 // // 9
 class CoutStatementNode : public StatementNode {
 public:
-    CoutStatementNode();
+    CoutStatementNode(ExpressionNode * express)
+                        : mExpressionNode(express) {};
     ~CoutStatementNode();
     void Interpret();
 private:
@@ -134,24 +135,24 @@ private:
 };
 
 // // 13
-// class BinaryOperatorNode : public ExpressionNode {
-// public:
-//     BinaryOperatorNode(ExpressionNode * left, ExpressionNode * right)
-//                         : mLeft(left), mRight(right) {};
-//     ~BinaryOperatorNode();
-//     virtual int Evaluate() = 0;
-// protected:
-//     ExpressionNode * mLeft;
-//     ExpressionNode * mRight;
-// };
+class BinaryOperatorNode : public ExpressionNode {
+public:
+    BinaryOperatorNode(ExpressionNode * left, ExpressionNode * right)
+                        : mLeft(left), mRight(right) {};
+    ~BinaryOperatorNode();
+    virtual int Evaluate() = 0;
+protected:
+    ExpressionNode * mLeft;
+    ExpressionNode * mRight;
+};
 
 // // 14
-// class PlusNode : public BinaryOperatorNode {
-// public:
-//     PlusNode(ExpressionNode * left, ExpressionNode * right)
-//         : BinaryOperatorNode(left, right) {};
-//     int Evaluate();
-// };
+class PlusNode : public BinaryOperatorNode {
+public:
+    PlusNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
 
 
 #endif /* _NODE_H_ */
