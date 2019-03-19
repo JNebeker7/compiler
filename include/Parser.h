@@ -13,6 +13,8 @@ public:
         : mScanner(scanner) {};
     void Start();
     void Program();
+    void Block();
+    void StatementGroup();
     TokenClass Match(TokenType expectedType);
 private:
     ScannerClass *mScanner;

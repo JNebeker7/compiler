@@ -8,6 +8,20 @@ void ParserClass::Start() {
 }
 
 void ParserClass::Program() {
+    Match(VOID_TOKEN);
+    Match(MAIN_TOKEN);
+    Match(LPAREN_TOKEN);
+    Match(RPAREN_TOKEN);
+    Block();
+}
+
+void ParserClass::Block() {
+    Match(LCURLY_TOKEN);
+    StatementGroup();
+    Match(RCURLY_TOKEN);
+}
+
+void ParserClass::StatementGroup() {
     
 }
 
