@@ -154,6 +154,71 @@ public:
     int Evaluate();
 };
 
+// chapter 5
+class MinusNode : public BinaryOperatorNode {
+public:
+    MinusNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
+
+class TimesNode : public BinaryOperatorNode {
+public:
+    TimesNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
+
+class DivideNode : public BinaryOperatorNode {
+public:
+    DivideNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
+
+class LessNode : public BinaryOperatorNode {
+public:
+    LessNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
+
+class LessEqualNode : public BinaryOperatorNode {
+public:
+    LessEqualNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
+
+class GreaterNode : public BinaryOperatorNode {
+public:
+    GreaterNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
+
+class GreaterEqualNode : public BinaryOperatorNode {
+public:
+    GreaterEqualNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
+
+class EqualNode : public BinaryOperatorNode {
+public:
+    EqualNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
+
+class NotEqualNode : public BinaryOperatorNode {
+public:
+    NotEqualNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    int Evaluate();
+};
+
+
 
 #endif /* _NODE_H_ */
 /* Local Variables: */

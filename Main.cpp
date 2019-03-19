@@ -62,10 +62,8 @@ bool test_symbols() {
 }
 
 bool test_node() {
-	cout << "testing nodes" << endl;
+	MSG("\nTest Nodes");
 	SymbolTable symbolTable = SymbolTable();
-
-	// IdentifierNode * identifer2 = new IdentifierNode("")
 
 	// cout << sum;
 	IntegerNode * intCoutNode = new IntegerNode(11);
@@ -89,17 +87,30 @@ bool test_node() {
 	ProgramNode * program = new ProgramNode(block);
 	StartNode * start = new StartNode(program);
 
-	delete start; 
+	delete start;
+	return true;
+}
+
+bool test_expressions() {
+	MSG("\nTesting Expressions and Binary Operators");
+
+	IntegerNode *intTwo = new IntegerNode(2);
+	IntegerNode *intFour = new IntegerNode(4);
+	PlusNode *plus = new PlusNode(intTwo, intFour);
+	int result = plus->Evaluate();
+
+	MSG(intTwo->Evaluate() << "+" << intFour->Evaluate() << "=" << result);
 	return true;
 }
 
 int main() {
-	const int tests_count = 4;
+	const int tests_count = 5;
 	Tests tests[tests_count] = {
 		test_token_type,
 		test_scanner,
 		test_symbols,
 		test_node,
+		test_expressions,
 	};
 
 	for (int i = 0; i < tests_count; i++) {

@@ -102,3 +102,40 @@ BinaryOperatorNode::~BinaryOperatorNode() {
 int PlusNode::Evaluate() {
     return this->mLeft->Evaluate() + this->mRight->Evaluate();
 }
+
+int MinusNode::Evaluate() {
+    return this->mLeft->Evaluate() - this->mRight->Evaluate();
+}
+
+int TimesNode::Evaluate() {
+    return this->mLeft->Evaluate() * this->mRight->Evaluate();
+}
+
+int DivideNode::Evaluate() {
+    return this->mLeft->Evaluate() / this->mRight->Evaluate();
+}
+
+int LessNode::Evaluate() {
+    return (this->mLeft->Evaluate() < this->mRight->Evaluate()) ? 1 : 0;
+}
+
+int LessEqualNode::Evaluate() {
+    return (this->mLeft->Evaluate() <= this->mRight->Evaluate()) ? 1 : 0;
+}
+
+int GreaterNode::Evaluate() {
+    return (this->mLeft->Evaluate() > this->mRight->Evaluate()) ? 1 : 0;
+}
+
+int GreaterEqualNode::Evaluate() {
+    return (this->mLeft->Evaluate() >= this->mRight->Evaluate()) ? 1 : 0;
+}
+
+int EqualNode::Evaluate() {
+    return (this->mLeft->Evaluate() == this->mRight->Evaluate()) ? 1 : 0;
+}
+
+int NotEqualNode::Evaluate() {
+    return (this->mLeft->Evaluate() != this->mRight->Evaluate()) ? 1 : 0;
+}
+
