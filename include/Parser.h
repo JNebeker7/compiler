@@ -15,6 +15,10 @@ public:
     void Program();
     void Block();
     void StatementGroup();
+    bool Statement();
+    bool IntegerStatement();
+    bool IdentifierStatement();
+    bool CoutStatement();
     TokenClass Match(TokenType expectedType);
 private:
     ScannerClass *mScanner;

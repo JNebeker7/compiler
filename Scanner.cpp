@@ -35,10 +35,6 @@ TokenClass ScannerClass::GetNextToken() {
 			MSG("Bad character"  << lexeme << " on line " << mLineNumber )
 			exit(2);
 		}
-		// if ( state == CANTMOVE_STATE ) {
-		// 	MSG("Bad character"  << lexeme << " on line " << mLineNumber );
-		// 	throw "bad character";
-		// }
 		
 	} while (state != CANTMOVE_STATE);
 	if ( c == '\n' ) {
@@ -57,4 +53,16 @@ TokenClass ScannerClass::GetNextToken() {
 
 int ScannerClass::getLineNumber() {
 	return mLineNumber;
+}
+
+TokenClass ScannerClass::PeekNextToken() {
+	int line = mLineNumber;
+	int position = (int)mFin.tellg();
+	TokenClass nextToken = GetNextToken();
+	if (!mFin) {
+		mFin.clear();
+	}
+	mFin.seekg(position);
+	mLineNumber = line;
+	return nextToken;
 }

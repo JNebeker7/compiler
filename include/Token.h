@@ -39,6 +39,7 @@ class TokenClass {
         const string & GetTokenTypeName() const { return gTokenTypeNames[mType]; }
         string GetLexeme() const { return mLexeme; }
         void CheckReserved();
+        
         static const string & GetTokenTypeName(TokenType type) { return gTokenTypeNames[type]; }
     private:
         TokenType mType;

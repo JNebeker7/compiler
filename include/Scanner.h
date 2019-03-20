@@ -15,6 +15,7 @@ public:
     ScannerClass( string file );
     TokenClass GetNextToken();
     int getLineNumber();
+    TokenClass PeekNextToken();
 };
 
 

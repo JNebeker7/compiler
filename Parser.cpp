@@ -22,7 +22,42 @@ void ParserClass::Block() {
 }
 
 void ParserClass::StatementGroup() {
-    
+    bool found = true;
+    do {
+        found = Statement();
+    } while ( found == true );
+}
+
+bool ParserClass::Statement() {
+    TokenClass tc = mScanner->PeekNextToken();
+    if (tc.GetTokenType() == INT_TOKEN) {
+        // int token
+        IntegerStatement();
+        // semi colon token
+    } else if (tc.GetTokenType() == IDENTIFIER_TOKEN) {
+        IdentifierStatement();
+        // assignment token
+        // Expression()
+        // Semi colon token
+    } else if (tc.GetTokenType() == COUT_TOKEN) {
+        // cout token
+        // insertion token
+        CoutStatement();
+        // semi colon token
+    }
+    return false;
+}
+
+bool ParserClass::IntegerStatement() {
+    return true;
+}
+
+bool ParserClass::IdentifierStatement() {
+    return true;
+}
+
+bool ParserClass::CoutStatement() {
+    return true;
 }
 
 TokenClass ParserClass::Match(TokenType expectedType) {
