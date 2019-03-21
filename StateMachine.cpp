@@ -109,7 +109,7 @@ MachineState StateMachineClass::UpdateState(char currentCharacter,
 		case '_': charType = UNDERSCORE_CHAR; break;
 		case '<': charType = LESS_CHAR; break;
 		case '{': charType = LCURLY_CHAR; break;
-		case '}': charType = RPAREN_CHAR; break;
+		case '}': charType = RCURLY_CHAR; break;
 		case '=': charType = EQUAL_CHAR; break;
 		case ';': charType = SEMICOLON_CHAR; break;
 		case '/': charType = DIVIDE_CHAR; break;

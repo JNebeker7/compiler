@@ -31,11 +31,11 @@ void ParserClass::StatementGroup() {
 bool ParserClass::Statement() {
     TokenClass tc = mScanner->PeekNextToken();
     if (tc.GetTokenType() == INT_TOKEN) {
-        DeclarationStatement();
+        return DeclarationStatement();
     } else if (tc.GetTokenType() == IDENTIFIER_TOKEN) {
-        AssignmentStatement();
+        return AssignmentStatement();
     } else if (tc.GetTokenType() == COUT_TOKEN) {
-        CoutStatement();
+        return CoutStatement();
     }
     return false;
 }
@@ -56,17 +56,22 @@ bool ParserClass::AssignmentStatement() {
 }
 
 bool ParserClass::CoutStatement() {
+    Match(COUT_TOKEN);
+    Match(INSERTION_TOKEN);
+    Expression();
+    Match(SEMICOLON_TOKEN);
     return true;
 }
 
 void ParserClass::Identifier() {
-    TokenClass tt = Match(IDENTIFIER_TOKEN);
+    Match(IDENTIFIER_TOKEN);
+    // TokenClass tt = Match(IDENTIFIER_TOKEN);
     // check if already exists after you match tt
-    mSymbolTable->AddEntry(tt.GetLexeme()); // lexeme is i
+    // mSymbolTable->AddEntry(tt.GetLexeme()); // lexeme is i
 }
 
 void ParserClass::Integer() {
-    Match(INT_TOKEN);
+    Match(INTEGER_TOKEN);
 }
 
 void ParserClass::Expression() {
@@ -155,6 +160,7 @@ void ParserClass::Factor() {
             break;
         case INTEGER_TOKEN:
             Integer();
+            break;
         case LPAREN_TOKEN:
             Match(LPAREN_TOKEN);
             Expression();

@@ -56,6 +56,9 @@ ostream & operator<<(ostream & out, const TokenClass & tc) {
         case 24:
             out << tc.GetLexeme() << "    | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]    |";
             return out;
+        case 20:
+            out << tc.GetLexeme() << "    | " << tc.GetTokenTypeName() << "[" << tc.GetTokenType() << "]     |";
+                return out;
         case 22:
             if ( stoi(tc.GetLexeme()) >= 100 ) {
                 // std::cout << "hello world" << std::endl;

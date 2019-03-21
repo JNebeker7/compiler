@@ -9,3 +9,4 @@ void main()
 	sum = 35 + 400;
 	cout << sum;
 }
+

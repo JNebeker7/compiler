@@ -3,6 +3,7 @@
 #include "include/Debug.h"
 #include "include/Node.h"
 #include "include/Symbol.h"
+#include "include/Parser.h"
 
 using std::cout;
 using std::endl;
@@ -103,14 +104,25 @@ bool test_expressions() {
 	return true;
 }
 
+bool test_parserNoOutput() {
+	MSG("\nTest parser no output");
+	SymbolTable symbolTable = SymbolTable();
+	ScannerClass scanner("code.cpp");
+	ParserClass parser(&scanner, &symbolTable);
+	parser.Start();
+	MSG("Test parser no output DONE\n ");
+	return true;
+}
+
 int main() {
-	const int tests_count = 5;
+	const int tests_count = 6;
 	Tests tests[tests_count] = {
 		test_token_type,
 		test_scanner,
 		test_symbols,
 		test_node,
 		test_expressions,
+		test_parserNoOutput,
 	};
 
 	for (int i = 0; i < tests_count; i++) {
