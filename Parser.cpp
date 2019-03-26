@@ -2,70 +2,91 @@
 
 using namespace std;
 
-void ParserClass::Start() {
-    Program();
+StartNode * ParserClass::Start() {
+    ProgramNode * programNode = Program();
     Match(ENDFILE_TOKEN);
+    StartNode * startNode = new StartNode(programNode);
+    return startNode;
 }
 
-void ParserClass::Program() {
+ParserClass::~ParserClass() {
+    // if (mScanner) {
+        // delete mScanner;
+    // }
+}
+
+ProgramNode * ParserClass::Program() {
     Match(VOID_TOKEN);
     Match(MAIN_TOKEN);
     Match(LPAREN_TOKEN);
     Match(RPAREN_TOKEN);
-    Block();
+    BlockNode * blockNode = Block();
+    ProgramNode * programNode = new ProgramNode(blockNode);
+    return programNode;
 }
 
-void ParserClass::Block() {
+BlockNode * ParserClass::Block() {
     Match(LCURLY_TOKEN);
-    StatementGroup();
+    BlockNode * blockNode = new BlockNode(StatementGroup());
     Match(RCURLY_TOKEN);
+    return blockNode;
 }
 
-void ParserClass::StatementGroup() {
-    bool found = true;
+StatementGroupNode * ParserClass::StatementGroup() {
+    StatementGroupNode * statementGroupNode = new StatementGroupNode();
+    StatementNode * statementNode;
     do {
-        found = Statement();
-    } while ( found == true );
+        statementNode = Statement();
+        if (statementNode != NULL) statementGroupNode->AddStatement(statementNode);
+    } while ( statementNode != NULL );
+    return statementGroupNode;
 }
 
-bool ParserClass::Statement() {
+StatementNode * ParserClass::Statement() {
     TokenClass tc = mScanner->PeekNextToken();
     if (tc.GetTokenType() == INT_TOKEN) {
-        return DeclarationStatement();
+        DeclarationStatementNode * declarationStatementNode = DeclarationStatement();
+        return declarationStatementNode;
     } else if (tc.GetTokenType() == IDENTIFIER_TOKEN) {
-        return AssignmentStatement();
+        AssignmentStatementNode * assignmentStatementNode = AssignmentStatement();
+        return assignmentStatementNode;
     } else if (tc.GetTokenType() == COUT_TOKEN) {
-        return CoutStatement();
+        CoutStatementNode * coutStatementNode = CoutStatement();
+        return coutStatementNode;
     }
-    return false;
+    return NULL;
 }
 
-bool ParserClass::DeclarationStatement() {
+DeclarationStatementNode * ParserClass::DeclarationStatement() {
     Match(INT_TOKEN);
-    Identifier();
+    IdentifierNode * identifierNode = Identifier();
+    DeclarationStatementNode * declarationStatementNode = new DeclarationStatementNode(identifierNode);
     Match(SEMICOLON_TOKEN);
-    return true;
+    return declarationStatementNode;
 }
 
-bool ParserClass::AssignmentStatement() {
-    Identifier();
+AssignmentStatementNode * ParserClass::AssignmentStatement() {
+
+    IdentifierNode * identifierNode = Identifier();
     Match(ASSIGNMENT_TOKEN);
-    Expression();
+    ExpressionNode * expressionNode = Expression();
     Match(SEMICOLON_TOKEN);
-    return true;
+    return NULL;
 }
 
-bool ParserClass::CoutStatement() {
+CoutStatementNode * ParserClass::CoutStatement() {
     Match(COUT_TOKEN);
     Match(INSERTION_TOKEN);
     Expression();
     Match(SEMICOLON_TOKEN);
-    return true;
+    return NULL;
 }
 
-void ParserClass::Identifier() {
-    Match(IDENTIFIER_TOKEN);
-    // TokenClass tt = Match(IDENTIFIER_TOKEN);
+IdentifierNode * ParserClass::Identifier() {
+    // Match(IDENTIFIER_TOKEN);
+    TokenClass tt = Match(IDENTIFIER_TOKEN);
+    IdentifierNode * identifierNode = new IdentifierNode(tt.GetLexeme(), mSymbolTable);
+    return identifierNode;
     // check if already exists after you match tt
     // mSymbolTable->AddEntry(tt.GetLexeme()); // lexeme is i
 }
@@ -74,8 +95,9 @@ void ParserClass::Integer() {
     Match(INTEGER_TOKEN);
 }
 
-void ParserClass::Expression() {
+ExpressionNode * ParserClass::Expression() {
     Relational();
+    return NULL;
 }
 
 void ParserClass::Relational() {

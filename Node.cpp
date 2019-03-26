@@ -42,11 +42,11 @@ void StatementGroupNode::Interpret() {
     
 }
 
-DeclarationStatmentNode::~DeclarationStatmentNode() {
+DeclarationStatementNode::~DeclarationStatementNode() {
     // MSG("DECLARATIONSTATEMENT DELETE");
     delete this->mIdentifierNode;
 }
-void DeclarationStatmentNode::Interpret() {
+void DeclarationStatementNode::Interpret() {
 
 }
 

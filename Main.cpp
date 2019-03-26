@@ -77,7 +77,7 @@ bool test_node() {
 
 	// int sum;
 	IdentifierNode * indentifierDeclaration = new IdentifierNode("x", &symbolTable);
-	DeclarationStatmentNode * declarationStatement = new DeclarationStatmentNode(indentifierDeclaration);
+	DeclarationStatementNode * declarationStatement = new DeclarationStatementNode(indentifierDeclaration);
 
 	StatementGroupNode * statementGroup = new StatementGroupNode();
 	statementGroup->AddStatement(coutStatement);
@@ -114,8 +114,20 @@ bool test_parserNoOutput() {
 	return true;
 }
 
+bool test_parserWithOutput() {
+	MSG("\nTest parser with output");
+	SymbolTable symbolTable = SymbolTable();
+	ScannerClass scanner("code.cpp");
+	ParserClass parser(&scanner, &symbolTable);
+	// ParserClass * parser = new ParserClass(&scanner, &symbolTable);
+	parser.Start();
+	// delete parser;
+	MSG("Test parser with output DONE\n ");
+	return true;
+}
+
 int main() {
-	const int tests_count = 6;
+	const int tests_count = 7;
 	Tests tests[tests_count] = {
 		test_token_type,
 		test_scanner,
@@ -123,6 +135,7 @@ int main() {
 		test_node,
 		test_expressions,
 		test_parserNoOutput,
+		test_parserWithOutput,
 	};
 
 	for (int i = 0; i < tests_count; i++) {

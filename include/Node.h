@@ -68,11 +68,11 @@ private:
     vector<StatementNode *> mStatementGroupNodes;
 };
 
-class DeclarationStatmentNode : public StatementNode {
+class DeclarationStatementNode : public StatementNode {
 public:
-    DeclarationStatmentNode(IdentifierNode * IdentifierNode) 
+    DeclarationStatementNode(IdentifierNode * IdentifierNode) 
                             : mIdentifierNode(IdentifierNode) {};
-    ~DeclarationStatmentNode();
+    ~DeclarationStatementNode();
     void Interpret();
 protected:
     IdentifierNode * mIdentifierNode;

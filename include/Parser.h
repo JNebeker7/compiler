@@ -6,27 +6,29 @@
 #include "Token.h"
 #include "Scanner.h"
 #include "Symbol.h"
+#include "Node.h"
 #include <iostream>
 
 class ParserClass {
 public:
     ParserClass(ScannerClass *scanner, SymbolTable *symbolTable)
         : mScanner(scanner), mSymbolTable(symbolTable) {};
-    void Start();
-    void Program();
-    void Block();
-    void StatementGroup();
-    bool Statement();
-    bool DeclarationStatement();
-    bool AssignmentStatement();
-    bool CoutStatement();
-    void Identifier();
-    void Expression();
+    ~ParserClass();
+    StartNode * Start();
+    ProgramNode * Program();
+    BlockNode * Block();
+    StatementGroupNode * StatementGroup();
+    StatementNode * Statement();
+    DeclarationStatementNode * DeclarationStatement();
+    AssignmentStatementNode * AssignmentStatement();
+    CoutStatementNode * CoutStatement();
+    IdentifierNode * Identifier();
+    void Integer();
+    ExpressionNode * Expression();
     void Relational();
     void PlusMinus();
     void TimesDivide();
     void Factor();
-    void Integer();
     TokenClass Match(TokenType expectedType);
 private:
     ScannerClass *mScanner;
