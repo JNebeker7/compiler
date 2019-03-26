@@ -121,7 +121,7 @@ bool test_parserWithOutput() {
 	ParserClass parser(&scanner, &symbolTable);
 	// ParserClass * parser = new ParserClass(&scanner, &symbolTable);
 	parser.Start();
-	// delete parser;
+	// delete parser; //
 	MSG("Test parser with output DONE\n ");
 	return true;
 }
