@@ -96,8 +96,9 @@ ExpressionNode * ParserClass::Integer() {
 }
 
 ExpressionNode * ParserClass::Expression() {
-    Relational();
-    return NULL;
+    // call logical or -> logical and -> relational -> plus minus -> times divide -> factor
+    ExpressionNode * relational = Relational();
+    return relational;
 }
 
 ExpressionNode * ParserClass::Relational() {
