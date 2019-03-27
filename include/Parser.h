@@ -23,12 +23,12 @@ public:
     AssignmentStatementNode * AssignmentStatement();
     CoutStatementNode * CoutStatement();
     IdentifierNode * Identifier();
-    void Integer();
+    ExpressionNode * Integer();
     ExpressionNode * Expression();
-    void Relational();
-    void PlusMinus();
-    void TimesDivide();
-    void Factor();
+    ExpressionNode * Relational();
+    ExpressionNode * PlusMinus();
+    ExpressionNode * TimesDivide();
+    ExpressionNode * Factor();
     TokenClass Match(TokenType expectedType);
 private:
     ScannerClass *mScanner;

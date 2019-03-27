@@ -60,8 +60,8 @@ StatementNode * ParserClass::Statement() {
 DeclarationStatementNode * ParserClass::DeclarationStatement() {
     Match(INT_TOKEN);
     IdentifierNode * identifierNode = Identifier();
-    DeclarationStatementNode * declarationStatementNode = new DeclarationStatementNode(identifierNode);
     Match(SEMICOLON_TOKEN);
+    DeclarationStatementNode * declarationStatementNode = new DeclarationStatementNode(identifierNode);
     return declarationStatementNode;
 }
 
@@ -71,28 +71,28 @@ AssignmentStatementNode * ParserClass::AssignmentStatement() {
     Match(ASSIGNMENT_TOKEN);
     ExpressionNode * expressionNode = Expression();
     Match(SEMICOLON_TOKEN);
-    return NULL;
+    AssignmentStatementNode * asn = new AssignmentStatementNode(identifierNode, expressionNode);
+    return asn;
 }
 
 CoutStatementNode * ParserClass::CoutStatement() {
     Match(COUT_TOKEN);
     Match(INSERTION_TOKEN);
-    Expression();
+    ExpressionNode * expressionNode =  Expression();
     Match(SEMICOLON_TOKEN);
-    return NULL;
+    CoutStatementNode * coutStatementNode = new CoutStatementNode(expressionNode);
+    return coutStatementNode;
 }
 
 IdentifierNode * ParserClass::Identifier() {
-    // Match(IDENTIFIER_TOKEN);
     TokenClass tt = Match(IDENTIFIER_TOKEN);
     IdentifierNode * identifierNode = new IdentifierNode(tt.GetLexeme(), mSymbolTable);
     return identifierNode;
-    // check if already exists after you match tt
-    // mSymbolTable->AddEntry(tt.GetLexeme()); // lexeme is i
 }
 
-void ParserClass::Integer() {
-    Match(INTEGER_TOKEN);
+ExpressionNode * ParserClass::Integer() {
+    TokenClass tt = Match(INTEGER_TOKEN);
+    return new IntegerNode(atoi(tt.GetLexeme().c_str()));
 }
 
 ExpressionNode * ParserClass::Expression() {
@@ -100,93 +100,104 @@ ExpressionNode * ParserClass::Expression() {
     return NULL;
 }
 
-void ParserClass::Relational() {
-    PlusMinus();
+ExpressionNode * ParserClass::Relational() {
+    ExpressionNode * current = PlusMinus();
     // Handle the optional tail:
     TokenType tt = mScanner->PeekNextToken().GetTokenType();
+    ExpressionNode * rhs;
     switch (tt)
     {
         case LESS_TOKEN:
             Match(tt);
-            PlusMinus();
+            rhs = PlusMinus();
+            return new LessNode( current, rhs );
             break;
         case LESSEQUAL_TOKEN:
             Match(tt);
-            PlusMinus();
+            rhs = PlusMinus();
+            return new LessEqualNode( current, rhs );
             break;
         case GREATER_TOKEN:
             Match(tt);
-            PlusMinus();
+            rhs = PlusMinus();
+            return new GreaterNode( current, rhs );
             break;
         case GREATEREQUAL_TOKEN:
             Match(tt);
-            PlusMinus();
+            rhs = PlusMinus();
+            return new GreaterEqualNode( current, rhs );
             break;
         case EQUAL_TOKEN:
             Match(tt);
-            PlusMinus();
+            rhs = PlusMinus();
+            return new EqualNode( current, rhs );
             break;
         case NOTEQUAL_TOKEN:
             Match(tt);
-            PlusMinus();
+            rhs = PlusMinus();
+            return new NotEqualNode( current, rhs );
             break;
         default:
-            return;
+            return current;
     }
 }
 
-void ParserClass::PlusMinus() {
-    TimesDivide();
+ExpressionNode * ParserClass::PlusMinus() {
+    ExpressionNode * current = TimesDivide();
     while ( true ) {
         TokenType tt = mScanner->PeekNextToken().GetTokenType();
         switch (tt)
         {
             case PLUS_TOKEN:
                 Match(tt);
-                TimesDivide();
+                current = new PlusNode( current, TimesDivide() );
                 break;
             case MINUS_TOKEN:
                 Match(tt);
-                TimesDivide();
+                current = new MinusNode( current, TimesDivide() );
                 break;
             default:
-                return;
+                return current;
         }
     }
 }
 
-void ParserClass::TimesDivide() {
-    Factor();
+ExpressionNode * ParserClass::TimesDivide() {
+    ExpressionNode * current = Factor();
     while ( true ) {
         TokenType tt = mScanner->PeekNextToken().GetTokenType();
         switch (tt)
         {
             case TIMES_TOKEN:
                 Match(tt);
+                current = new TimesNode( current, Factor() );
                 break;
             case DIVIDE_TOKEN:
                 Match(tt);
+                current = new DivideNode( current, Factor() );
                 break;
             default:
-                return;
+                return current;
         }
     }
 }
 
-void ParserClass::Factor() {
+ExpressionNode * ParserClass::Factor() {
     TokenType tt = mScanner->PeekNextToken().GetTokenType();
+    ExpressionNode * expression;
     switch (tt)
     {
         case IDENTIFIER_TOKEN:
-            Identifier();
+            return Identifier();
             break;
         case INTEGER_TOKEN:
-            Integer();
+            return Integer();
             break;
         case LPAREN_TOKEN:
             Match(LPAREN_TOKEN);
-            Expression();
+            expression = Expression();
             Match(RPAREN_TOKEN);
+            return expression;
             break;
         default:
             cerr << "There was an error in the Factor method" << endl;
