@@ -31,8 +31,9 @@ public:
     ExpressionNode * Factor();
     TokenClass Match(TokenType expectedType);
 private:
-    ScannerClass *mScanner;
-    SymbolTable *mSymbolTable;
+    ScannerClass * mScanner;
+    SymbolTable * mSymbolTable;
+    StartNode * start;
 };
 
 

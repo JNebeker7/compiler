@@ -5,14 +5,13 @@ using namespace std;
 StartNode * ParserClass::Start() {
     ProgramNode * programNode = Program();
     Match(ENDFILE_TOKEN);
-    StartNode * startNode = new StartNode(programNode);
-    return startNode;
+    this->start = new StartNode(programNode);
+    return this->start;
 }
 
 ParserClass::~ParserClass() {
-    // if (mScanner) {
-        // delete mScanner;
-    // }
+    MSG("Delete Start");
+    delete this->start;
 }
 
 ProgramNode * ParserClass::Program() {

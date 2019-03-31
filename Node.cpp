@@ -9,7 +9,7 @@ StartNode::~StartNode() {
     delete this->mProgramNode; 
 }
 void StartNode::Interpret() {
-
+    mProgramNode->Interpret();
 }
 
 ProgramNode::~ProgramNode() {
@@ -17,7 +17,7 @@ ProgramNode::~ProgramNode() {
     delete this->mBlockNode;
 }
 void ProgramNode::Interpret() {
-
+    mBlockNode->Interpret();
 }
 
 BlockNode::~BlockNode() {
@@ -25,7 +25,7 @@ BlockNode::~BlockNode() {
     delete this->mStatementGroupNode;
 }
 void BlockNode::Interpret() {
-
+    mStatementGroupNode->Interpret();
 }
 
 void StatementGroupNode::AddStatement( StatementNode * StatementNode ) {
@@ -39,7 +39,9 @@ StatementGroupNode::~StatementGroupNode() {
     }
 }
 void StatementGroupNode::Interpret() {
-    
+    for (int i = 0; i < mStatementGroupNodes.size(); i++) {
+        mStatementGroupNodes[i]->Interpret();
+    }
 }
 
 DeclarationStatementNode::~DeclarationStatementNode() {

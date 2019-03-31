@@ -118,10 +118,10 @@ bool test_parserWithOutput() {
 	MSG("\nTest parser with output");
 	SymbolTable symbolTable = SymbolTable();
 	ScannerClass scanner("code.cpp");
-	ParserClass parser(&scanner, &symbolTable);
-	// ParserClass * parser = new ParserClass(&scanner, &symbolTable);
-	parser.Start();
-	// delete parser; //
+	// ParserClass parser(&scanner, &symbolTable);
+	ParserClass * start = new ParserClass(&scanner, &symbolTable);
+	start->Start();
+	delete start; //
 	MSG("Test parser with output DONE\n ");
 	return true;
 }
