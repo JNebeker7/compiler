@@ -132,14 +132,14 @@ bool test_interpreter() {
 }
 
 int main() {
-	const int tests_count = 8;
+	const int tests_count = 6;
 	Tests tests[tests_count] = {
 		test_token_type,
 		test_scanner,
 		test_symbols,
 		test_node,
-		test_expressions,
-		test_parserNoOutput,
+		// test_expressions,
+		// test_parserNoOutput,
 		test_parserWithOutput,
 		test_interpreter,
 	};

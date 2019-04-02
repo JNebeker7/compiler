@@ -5,7 +5,7 @@ Node::~Node(){
 }
 
 StartNode::~StartNode() {
-    MSG("START DELETE");
+    // MSG("START DELETE");
     delete this->mProgramNode; 
 }
 void StartNode::Interpret() {
@@ -13,7 +13,7 @@ void StartNode::Interpret() {
 }
 
 ProgramNode::~ProgramNode() {
-    MSG("PROGRAM DELETE");
+    // MSG("PROGRAM DELETE");
     delete this->mBlockNode;
 }
 void ProgramNode::Interpret() {
@@ -21,7 +21,7 @@ void ProgramNode::Interpret() {
 }
 
 BlockNode::~BlockNode() {
-    MSG("BLOCK DELETE");
+    // MSG("BLOCK DELETE");
     delete this->mStatementGroupNode;
 }
 void BlockNode::Interpret() {
@@ -32,9 +32,9 @@ void StatementGroupNode::AddStatement( StatementNode * StatementNode ) {
     this->mStatementGroupNodes.push_back( StatementNode );
 }
 StatementGroupNode::~StatementGroupNode() {
-    MSG("STATEMENTGROUPNODE DELETE");
+    // MSG("STATEMENTGROUPNODE DELETE");
     for (int i = 0; i < mStatementGroupNodes.size(); i++) {
-        MSG("STATEMENTNODE " << i << " DELETE");
+        // MSG("STATEMENTNODE " << i << " DELETE");
         delete mStatementGroupNodes[i];
     }
 }
@@ -74,7 +74,7 @@ IfStatementNode::~IfStatementNode() {
     delete this->mExpression;
     delete this->mStatement1;
     delete this->mStatement2;
-    MSG("IFSTATEMENTNODE DELETE");
+    // MSG("IFSTATEMENTNODE DELETE");
 }
 
 void IfStatementNode::Interpret() {
@@ -88,7 +88,7 @@ void IfStatementNode::Interpret() {
 WhileStatementNode::~WhileStatementNode() {
     delete this->mExpression;
     delete this->mStatement;
-    MSG("WHILESTATEMENTNODE DELETE")
+    // MSG("WHILESTATEMENTNODE DELETE")
 }
 
 void WhileStatementNode::Interpret() {
@@ -103,14 +103,14 @@ ExpressionNode::~ExpressionNode() {
 }
 
 IntegerNode::~IntegerNode() {
-    MSG("INTEGERNODE DELETE");
+    // MSG("INTEGERNODE DELETE");
 }
 int IntegerNode::Evaluate() {
     return this->mValue;
 }
 
 IdentifierNode::~IdentifierNode() {
-    MSG("IDENTIFIERNODE DELETE");
+    // MSG("IDENTIFIERNODE DELETE");
 }
 void IdentifierNode::DeclareVariable() {
     this->mSymbolTable->AddEntry(this->mLabel);
@@ -126,7 +126,7 @@ int IdentifierNode::Evaluate() {
 }
 
 BinaryOperatorNode::~BinaryOperatorNode() {
-    MSG("BINARYOPERATORNODE DELETE");
+    // MSG("BINARYOPERATORNODE DELETE");
     delete this->mLeft; delete this->mRight;
 }
 

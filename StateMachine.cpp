@@ -32,19 +32,37 @@ StateMachineClass::StateMachineClass() {
 	mLegalMoves[START_STATE][LESS_CHAR] = LESS_STATE;
 	// <<
 	mLegalMoves[LESS_STATE][LESS_CHAR] = INSERTION_STATE;
+	// >
+	mLegalMoves[START_STATE][GREATER_CHAR] = GREATER_STATE;
+	// >>
+
 	// {}
 	mLegalMoves[START_STATE][LCURLY_CHAR] = LCURLY_STATE;
 	mLegalMoves[START_STATE][RCURLY_CHAR] = RCURLY_STATE;
 	mLegalMoves[RCURLY_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
-	// =
+	// = assignment
 	mLegalMoves[START_STATE][EQUAL_CHAR] = ASSIGNMENT_STATE;
+	// <= less equal
+	mLegalMoves[LESS_STATE][EQUAL_CHAR] = LESSEQUAL_STATE;
+	// >= greater equal
+	mLegalMoves[GREATER_STATE][EQUAL_CHAR] = GREATEREQUAL_STATE;
+	// != not equal
+	mLegalMoves[START_STATE][NOT_CHAR] = NOT_STATE;
+	mLegalMoves[NOT_STATE][EQUAL_CHAR] = NOTEQUAL_STATE;
+	// == equal equal
+	mLegalMoves[ASSIGNMENT_STATE][EQUAL_CHAR] = EQUAL_STATE;
+
 	// digits
 	mLegalMoves[START_STATE][DIGIT_CHAR] = INTEGER_STATE;
 	mLegalMoves[INTEGER_STATE][DIGIT_CHAR] = INTEGER_STATE;
 	// ;
 	mLegalMoves[START_STATE][SEMICOLON_CHAR] = SEMICOLON_STATE;
-	// +
+	// + Plus
 	mLegalMoves[START_STATE][PLUS_CHAR] = PLUS_STATE;
+	// - Minus
+	mLegalMoves[START_STATE][MINUS_CHAR] = MINUS_STATE;
+	// * Times
+	mLegalMoves[START_STATE][STAR_CHAR] = TIMES_STATE;
 	// EOF
 	mLegalMoves[START_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
 
@@ -90,13 +108,19 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[LPAREN_STATE] = LPAREN_TOKEN;
 	mCorrespondingTokenTypes[RPAREN_STATE] = RPAREN_TOKEN;
 	mCorrespondingTokenTypes[LESS_STATE] = LESS_TOKEN;
+	mCorrespondingTokenTypes[GREATER_STATE] = GREATER_TOKEN;
 	mCorrespondingTokenTypes[LCURLY_STATE] = LCURLY_TOKEN;
 	mCorrespondingTokenTypes[RCURLY_STATE] = RCURLY_TOKEN;
 	mCorrespondingTokenTypes[ASSIGNMENT_STATE] = ASSIGNMENT_TOKEN;
 	mCorrespondingTokenTypes[INSERTION_STATE] = INSERTION_TOKEN;
 	mCorrespondingTokenTypes[SEMICOLON_STATE] = SEMICOLON_TOKEN;
 	mCorrespondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
-
+	mCorrespondingTokenTypes[MINUS_STATE] = MINUS_TOKEN;
+	mCorrespondingTokenTypes[TIMES_STATE] = TIMES_TOKEN;
+	mCorrespondingTokenTypes[LESSEQUAL_STATE] = LESSEQUAL_TOKEN;
+	mCorrespondingTokenTypes[GREATEREQUAL_STATE] = GREATEREQUAL_TOKEN;
+	mCorrespondingTokenTypes[NOTEQUAL_STATE] = NOTEQUAL_TOKEN;
+	mCorrespondingTokenTypes[EQUAL_STATE] = EQUAL_TOKEN;
 	// &&
 	mCorrespondingTokenTypes[LAND_STATE] = LAND_TOKEN;
 	// ||
@@ -118,10 +142,12 @@ MachineState StateMachineClass::UpdateState(char currentCharacter,
 
 	switch ( currentCharacter ) {
 		case '+': charType = PLUS_CHAR; break;
+		case '-': charType = MINUS_CHAR; break;
 		case '(': charType = LPAREN_CHAR; break;
 		case ')': charType = RPAREN_CHAR; break;
 		case '_': charType = UNDERSCORE_CHAR; break;
 		case '<': charType = LESS_CHAR; break;
+		case '>': charType = GREATER_CHAR; break;
 		case '{': charType = LCURLY_CHAR; break;
 		case '}': charType = RCURLY_CHAR; break;
 		case '=': charType = EQUAL_CHAR; break;

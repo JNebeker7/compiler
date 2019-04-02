@@ -48,15 +48,6 @@ private:
     BlockNode * mBlockNode;
 };
 
-class BlockNode : public Node {
-public:
-    BlockNode( StatementGroupNode * StatementGroupNode ) : mStatementGroupNode(StatementGroupNode) {};
-    ~BlockNode();
-    void Interpret();
-private:
-    StatementGroupNode * mStatementGroupNode;
-};
-
 class StatementNode : public Node {
 public:
     virtual void Interpret() = 0;
@@ -70,6 +61,15 @@ public:
     virtual void Interpret();
 private:
     vector<StatementNode *> mStatementGroupNodes;
+};
+
+class BlockNode : public StatementNode {
+public:
+    BlockNode( StatementGroupNode * StatementGroupNode ) : mStatementGroupNode(StatementGroupNode) {};
+    ~BlockNode();
+    void Interpret();
+private:
+    StatementGroupNode * mStatementGroupNode;
 };
 
 class DeclarationStatementNode : public StatementNode {

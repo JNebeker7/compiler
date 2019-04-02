@@ -59,6 +59,9 @@ StatementNode * ParserClass::Statement() {
     } else if ( tt == WHILE_TOKEN ) {
         WhileStatementNode * whileStatement = WhileStatement();
         return whileStatement;
+    } else if ( tt == LCURLY_TOKEN ) {
+        BlockNode * blockNode = Block();
+        return blockNode;
     }
     return NULL;
 }
