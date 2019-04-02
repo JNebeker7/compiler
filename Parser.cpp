@@ -42,19 +42,23 @@ StatementGroupNode * ParserClass::StatementGroup() {
 }
 
 StatementNode * ParserClass::Statement() {
-    TokenClass tc = mScanner->PeekNextToken();
-    if (tc.GetTokenType() == INT_TOKEN) {
+    // TokenClass tc = mScanner->PeekNextToken();
+    TokenType tt = mScanner->PeekNextToken().GetTokenType();
+    if ( tt == INT_TOKEN ) {
         DeclarationStatementNode * declarationStatementNode = DeclarationStatement();
         return declarationStatementNode;
-    } else if (tc.GetTokenType() == IDENTIFIER_TOKEN) {
+    } else if ( tt == IDENTIFIER_TOKEN ) {
         AssignmentStatementNode * assignmentStatementNode = AssignmentStatement();
         return assignmentStatementNode;
-    } else if (tc.GetTokenType() == COUT_TOKEN) {
+    } else if ( tt == COUT_TOKEN ) {
         CoutStatementNode * coutStatementNode = CoutStatement();
         return coutStatementNode;
-    } else if (tc.GetTokenType() == IF_TOKEN) {
+    } else if ( tt == IF_TOKEN ) {
         IfStatementNode * ifStatementNode = IfStatement();
         return ifStatementNode;
+    } else if ( tt == WHILE_TOKEN ) {
+        WhileStatementNode * whileStatement = WhileStatement();
+        return whileStatement;
     }
     return NULL;
 }
@@ -70,11 +74,17 @@ DeclarationStatementNode * ParserClass::DeclarationStatement() {
 AssignmentStatementNode * ParserClass::AssignmentStatement() {
 
     IdentifierNode * identifierNode = Identifier();
-    Match(ASSIGNMENT_TOKEN);
-    ExpressionNode * expressionNode = Expression();
-    Match(SEMICOLON_TOKEN);
-    AssignmentStatementNode * asn = new AssignmentStatementNode(identifierNode, expressionNode);
-    return asn;
+    TokenType tt = mScanner->PeekNextToken().GetTokenType();
+    if ( tt == ASSIGNMENT_TOKEN ) {
+        Match(tt);
+        ExpressionNode * expressionNode = Expression();
+        Match(SEMICOLON_TOKEN);
+        AssignmentStatementNode * asn = new AssignmentStatementNode(identifierNode, expressionNode);
+        return asn;
+    } else {
+        return NULL;
+    }
+
 }
 
 CoutStatementNode * ParserClass::CoutStatement() {
@@ -103,6 +113,16 @@ IfStatementNode * ParserClass::IfStatement() {
     return ifStatmentnode;
 }
 
+WhileStatementNode * ParserClass::WhileStatement() {
+    Match(WHILE_TOKEN);
+    Match(LPAREN_TOKEN);
+    ExpressionNode * expressionNode = Expression();
+    Match(RPAREN_TOKEN);
+    StatementNode * statementNode = Statement();
+    WhileStatementNode * whileStatementNode = new WhileStatementNode(expressionNode, statementNode);
+    return whileStatementNode;
+}
+
 IdentifierNode * ParserClass::Identifier() {
     TokenClass tt = Match(IDENTIFIER_TOKEN);
     IdentifierNode * identifierNode = new IdentifierNode(tt.GetLexeme(), mSymbolTable);
@@ -116,8 +136,38 @@ ExpressionNode * ParserClass::Integer() {
 
 ExpressionNode * ParserClass::Expression() {
     // call logical or -> logical and -> relational -> plus minus -> times divide -> factor
-    ExpressionNode * relational = Relational();
-    return relational;
+    ExpressionNode * expressionNode = LogicalOR();
+    return expressionNode;
+}
+
+ExpressionNode * ParserClass::LogicalOR() {
+    ExpressionNode * current = LogicalAND();
+    while ( true ) {
+        TokenType tt = mScanner->PeekNextToken().GetTokenType();
+        if ( tt == LOR_TOKEN ) {
+            Match(tt);
+            ExpressionNode * rhs = LogicalAND();
+            LogicalORnode * logicalORnode = new LogicalORnode(current, rhs);
+            return logicalORnode;
+        } else {
+            return current;
+        }
+    }
+}
+
+ExpressionNode * ParserClass::LogicalAND() {
+    ExpressionNode * current = Relational();
+    while ( true ) {
+        TokenType tt = mScanner->PeekNextToken().GetTokenType();
+        if ( tt == LAND_TOKEN ) {
+            Match(tt);
+            ExpressionNode * rhs = Relational();
+            LogicalANDnode * logicalANDnode = new LogicalANDnode(current, rhs);
+            return logicalANDnode;
+        } else {
+            return current;
+        }
+    }
 }
 
 ExpressionNode * ParserClass::Relational() {

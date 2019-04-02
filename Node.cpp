@@ -70,19 +70,32 @@ void CoutStatementNode::Interpret() {
     cout << this->mExpressionNode->Evaluate() << endl;
 }
 
+IfStatementNode::~IfStatementNode() {
+    delete this->mExpression;
+    delete this->mStatement1;
+    delete this->mStatement2;
+    MSG("IFSTATEMENTNODE DELETE");
+}
+
 void IfStatementNode::Interpret() {
-    if (mExpression->Evaluate()) {
+    if ( mExpression->Evaluate() ) {
         mStatement1->Interpret();
     } else {
         mStatement2->Interpret();
     }
 }
 
-IfStatementNode::~IfStatementNode() {
+WhileStatementNode::~WhileStatementNode() {
     delete this->mExpression;
-    delete this->mStatement1;
-    delete this->mStatement2;
-    MSG("IFSTATEMENTNODE DELETE");
+    delete this->mStatement;
+    MSG("WHILESTATEMENTNODE DELETE")
+}
+
+void WhileStatementNode::Interpret() {
+    // while the expression is true. interpret the statement
+    while ( mExpression->Evaluate() ) {
+        mStatement->Interpret();
+    }
 }
 
 ExpressionNode::~ExpressionNode() {
@@ -157,3 +170,10 @@ int NotEqualNode::Evaluate() {
     return (this->mLeft->Evaluate() != this->mRight->Evaluate()) ? 1 : 0;
 }
 
+int LogicalANDnode::Evaluate() {
+    return ( this->mLeft->Evaluate() && this->mRight->Evaluate() ) ? 1 : 0;
+}
+
+int LogicalORnode::Evaluate() {
+    return ( this->mLeft->Evaluate() || this->mRight->Evaluate() ) ? 1 : 0;
+}

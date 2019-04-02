@@ -22,6 +22,7 @@ class IntegerNode;
 class BinaryOperatorNode;
 class PlusNode;
 class IfStatementNode;
+class WhileStatementNode;
 
 class Node {
 public:
@@ -114,6 +115,17 @@ private:
     ExpressionNode * mExpression;
     StatementNode * mStatement1;
     StatementNode * mStatement2;
+};
+
+class WhileStatementNode : public StatementNode {
+public:
+    WhileStatementNode(ExpressionNode * expression, StatementNode * statement)
+        : mExpression(expression), mStatement(statement) {};
+    ~WhileStatementNode();
+    virtual void Interpret();
+private:
+    ExpressionNode * mExpression;
+    StatementNode * mStatement;
 };
 
 // // 10
@@ -229,6 +241,20 @@ public:
 class NotEqualNode : public BinaryOperatorNode {
 public:
     NotEqualNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    virtual int Evaluate();
+};
+
+class LogicalANDnode : public BinaryOperatorNode {
+public:
+    LogicalANDnode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    virtual int Evaluate();
+};
+
+class LogicalORnode : public BinaryOperatorNode {
+public:
+    LogicalORnode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
     virtual int Evaluate();
 };

@@ -48,6 +48,14 @@ StateMachineClass::StateMachineClass() {
 	// EOF
 	mLegalMoves[START_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
 
+	// && LAND
+	mLegalMoves[START_STATE][AMPERSAND_CHAR] = AMPERSAND_STATE;
+	mLegalMoves[AMPERSAND_STATE][AMPERSAND_CHAR] = LAND_STATE;
+
+	// || LOR
+	mLegalMoves[START_STATE][LINEBAR_CHAR] = LINEBAR_STATE;
+	mLegalMoves[LINEBAR_STATE][LINEBAR_CHAR] = LOR_STATE;
+
 	// comments initial
 	for ( int i = 0; i < LAST_CHAR; i++ ) {
 		mLegalMoves[LINE_COMMENT_STATE][i] = LINE_COMMENT_STATE;
@@ -88,6 +96,12 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[INSERTION_STATE] = INSERTION_TOKEN;
 	mCorrespondingTokenTypes[SEMICOLON_STATE] = SEMICOLON_TOKEN;
 	mCorrespondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
+
+	// &&
+	mCorrespondingTokenTypes[LAND_STATE] = LAND_TOKEN;
+	// ||
+	mCorrespondingTokenTypes[LOR_STATE] = LOR_TOKEN;
+
 	mCorrespondingTokenTypes[ENDFILE_STATE] = ENDFILE_TOKEN;
 	mCorrespondingTokenTypes[BAD_STATE] = BAD_TOKEN;
 
@@ -115,6 +129,8 @@ MachineState StateMachineClass::UpdateState(char currentCharacter,
 		case '/': charType = DIVIDE_CHAR; break;
 		case '*': charType = STAR_CHAR; break;
 		case '!': charType = NOT_CHAR; break;
+		case '&': charType = AMPERSAND_CHAR; break;
+		case '|': charType = LINEBAR_CHAR; break;
 		default:  charType = BAD_CHAR; break;
 	}
 
