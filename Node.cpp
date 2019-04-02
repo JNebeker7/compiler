@@ -9,7 +9,7 @@ StartNode::~StartNode() {
     delete this->mProgramNode; 
 }
 void StartNode::Interpret() {
-    mProgramNode->Interpret();
+    this->mProgramNode->Interpret();
 }
 
 ProgramNode::~ProgramNode() {
@@ -17,7 +17,7 @@ ProgramNode::~ProgramNode() {
     delete this->mBlockNode;
 }
 void ProgramNode::Interpret() {
-    mBlockNode->Interpret();
+    this->mBlockNode->Interpret();
 }
 
 BlockNode::~BlockNode() {
@@ -25,7 +25,7 @@ BlockNode::~BlockNode() {
     delete this->mStatementGroupNode;
 }
 void BlockNode::Interpret() {
-    mStatementGroupNode->Interpret();
+    this->mStatementGroupNode->Interpret();
 }
 
 void StatementGroupNode::AddStatement( StatementNode * StatementNode ) {
@@ -40,7 +40,7 @@ StatementGroupNode::~StatementGroupNode() {
 }
 void StatementGroupNode::Interpret() {
     for (int i = 0; i < mStatementGroupNodes.size(); i++) {
-        mStatementGroupNodes[i]->Interpret();
+        this->mStatementGroupNodes[i]->Interpret();
     }
 }
 
@@ -49,7 +49,7 @@ DeclarationStatementNode::~DeclarationStatementNode() {
     delete this->mIdentifierNode;
 }
 void DeclarationStatementNode::Interpret() {
-
+    this->mIdentifierNode->DeclareVariable();
 }
 
 AssignmentStatementNode::~AssignmentStatementNode() {
@@ -58,7 +58,8 @@ AssignmentStatementNode::~AssignmentStatementNode() {
     delete this->mIdentifierNode;
 }
 void AssignmentStatementNode::Interpret() {
-
+    int val = this->mExpressionNode->Evaluate();
+    this->mIdentifierNode->SetValue(val);
 }
 
 CoutStatementNode::~CoutStatementNode() {
@@ -66,7 +67,7 @@ CoutStatementNode::~CoutStatementNode() {
     delete this->mExpressionNode;
 }
 void CoutStatementNode::Interpret() {
-    this->mExpressionNode->Evaluate();
+    cout << this->mExpressionNode->Evaluate() << endl;
 }
 
 ExpressionNode::~ExpressionNode() {

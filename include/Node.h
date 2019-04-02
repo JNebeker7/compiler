@@ -21,6 +21,7 @@ class CoutStatementNode;
 class IntegerNode;
 class BinaryOperatorNode;
 class PlusNode;
+class IfStatementNode;
 
 class Node {
 public:
@@ -56,6 +57,8 @@ private:
 };
 
 class StatementNode : public Node {
+public:
+    virtual void Interpret() = 0;
 };
 
 class StatementGroupNode : public Node {
@@ -63,7 +66,7 @@ public:
     StatementGroupNode() {};
     ~StatementGroupNode();
     void AddStatement( StatementNode * StatementNode );
-    void Interpret();
+    virtual void Interpret();
 private:
     vector<StatementNode *> mStatementGroupNodes;
 };
@@ -73,7 +76,7 @@ public:
     DeclarationStatementNode(IdentifierNode * IdentifierNode) 
                             : mIdentifierNode(IdentifierNode) {};
     ~DeclarationStatementNode();
-    void Interpret();
+    virtual void Interpret();
 protected:
     IdentifierNode * mIdentifierNode;
 };
@@ -84,7 +87,7 @@ public:
     AssignmentStatementNode(IdentifierNode * IdentifierNode, ExpressionNode * ExpressionNode) 
                             : mIdentifierNode(IdentifierNode), mExpressionNode(ExpressionNode) {};
     ~AssignmentStatementNode();
-    void Interpret();
+    virtual void Interpret();
 private:
     IdentifierNode * mIdentifierNode;
     ExpressionNode * mExpressionNode;
@@ -96,9 +99,15 @@ public:
     CoutStatementNode(ExpressionNode * express)
                         : mExpressionNode(express) {};
     ~CoutStatementNode();
-    void Interpret();
+    virtual void Interpret();
 private:
     ExpressionNode * mExpressionNode;
+};
+
+class IfStatementNode : public StatementNode {
+public:
+    IfStatementNode() {};
+private:
 };
 
 // // 10
@@ -151,7 +160,7 @@ class PlusNode : public BinaryOperatorNode {
 public:
     PlusNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 // chapter 5
@@ -159,63 +168,63 @@ class MinusNode : public BinaryOperatorNode {
 public:
     MinusNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 class TimesNode : public BinaryOperatorNode {
 public:
     TimesNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 class DivideNode : public BinaryOperatorNode {
 public:
     DivideNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 class LessNode : public BinaryOperatorNode {
 public:
     LessNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 class LessEqualNode : public BinaryOperatorNode {
 public:
     LessEqualNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 class GreaterNode : public BinaryOperatorNode {
 public:
     GreaterNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 class GreaterEqualNode : public BinaryOperatorNode {
 public:
     GreaterEqualNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 class EqualNode : public BinaryOperatorNode {
 public:
     EqualNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 class NotEqualNode : public BinaryOperatorNode {
 public:
     NotEqualNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
-    int Evaluate();
+    virtual int Evaluate();
 };
 
 
