@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include <vector>
 #include <string>
+#include <math.h>
 
 using namespace std;
 
@@ -107,7 +108,7 @@ private:
 
 class IfStatementNode : public StatementNode {
 public:
-    IfStatementNode(ExpressionNode * expression, StatementNode * sn1, StatementNode * sn2)
+    IfStatementNode(ExpressionNode * expression = NULL, StatementNode * sn1 = NULL, StatementNode * sn2 = NULL)
         : mExpression(expression), mStatement1(sn1), mStatement2(sn2) {};
     ~IfStatementNode();
     virtual void Interpret();
@@ -192,6 +193,13 @@ public:
 class TimesNode : public BinaryOperatorNode {
 public:
     TimesNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    virtual int Evaluate();
+};
+
+class ExponentNode : public BinaryOperatorNode {
+public:
+    ExponentNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
     virtual int Evaluate();
 };

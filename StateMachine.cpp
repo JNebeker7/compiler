@@ -17,7 +17,7 @@ StateMachineClass::StateMachineClass() {
 
 	// spin on whitespace
 	mLegalMoves[START_STATE][WHITESPACE_CHAR] = START_STATE;
-	// returen char
+	// return char
 	mLegalMoves[START_STATE][RETURN_CHAR] = START_STATE;
 	// letter and underscore and digit
 	mLegalMoves[START_STATE][LETTER_CHAR] = IDENTIFIER_STATE;
@@ -28,29 +28,30 @@ StateMachineClass::StateMachineClass() {
 	// ()
 	mLegalMoves[START_STATE][LPAREN_CHAR] = LPAREN_STATE;
 	mLegalMoves[START_STATE][RPAREN_CHAR] = RPAREN_STATE;
-	// <
-	mLegalMoves[START_STATE][LESS_CHAR] = LESS_STATE;
-	// <<
-	mLegalMoves[LESS_STATE][LESS_CHAR] = INSERTION_STATE;
-	// >
-	mLegalMoves[START_STATE][GREATER_CHAR] = GREATER_STATE;
-	// >>
-
 	// {}
 	mLegalMoves[START_STATE][LCURLY_CHAR] = LCURLY_STATE;
 	mLegalMoves[START_STATE][RCURLY_CHAR] = RCURLY_STATE;
 	mLegalMoves[RCURLY_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
-	// = assignment
-	mLegalMoves[START_STATE][EQUAL_CHAR] = ASSIGNMENT_STATE;
+	// <
+	mLegalMoves[START_STATE][LESS_CHAR] = LESS_STATE;
 	// <= less equal
 	mLegalMoves[LESS_STATE][EQUAL_CHAR] = LESSEQUAL_STATE;
+	// <<
+	mLegalMoves[LESS_STATE][LESS_CHAR] = INSERTION_STATE;
+	// >
+	mLegalMoves[START_STATE][GREATER_CHAR] = GREATER_STATE;
 	// >= greater equal
 	mLegalMoves[GREATER_STATE][EQUAL_CHAR] = GREATEREQUAL_STATE;
-	// != not equal
-	mLegalMoves[START_STATE][NOT_CHAR] = NOT_STATE;
-	mLegalMoves[NOT_STATE][EQUAL_CHAR] = NOTEQUAL_STATE;
+	// >>
+
+	// = assignment
+	mLegalMoves[START_STATE][EQUAL_CHAR] = ASSIGNMENT_STATE;
 	// == equal equal
 	mLegalMoves[ASSIGNMENT_STATE][EQUAL_CHAR] = EQUAL_STATE;
+	// !
+	mLegalMoves[START_STATE][NOT_CHAR] = NOT_STATE;
+	// != not equal
+	mLegalMoves[NOT_STATE][EQUAL_CHAR] = NOTEQUAL_STATE;
 
 	// digits
 	mLegalMoves[START_STATE][DIGIT_CHAR] = INTEGER_STATE;
@@ -63,6 +64,10 @@ StateMachineClass::StateMachineClass() {
 	mLegalMoves[START_STATE][MINUS_CHAR] = MINUS_STATE;
 	// * Times
 	mLegalMoves[START_STATE][STAR_CHAR] = TIMES_STATE;
+	// ** Exponent
+	mLegalMoves[TIMES_STATE][STAR_CHAR] = EXPONENT_STATE;
+	// / Divide
+	mLegalMoves[START_STATE][DIVIDE_CHAR] = DIVIDE_STATE;
 	// EOF
 	mLegalMoves[START_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
 
@@ -117,6 +122,8 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
 	mCorrespondingTokenTypes[MINUS_STATE] = MINUS_TOKEN;
 	mCorrespondingTokenTypes[TIMES_STATE] = TIMES_TOKEN;
+	mCorrespondingTokenTypes[EXPONENT_STATE] = EXPONENT_TOKEN;
+	mCorrespondingTokenTypes[DIVIDE_STATE] = DIVIDE_TOKEN;
 	mCorrespondingTokenTypes[LESSEQUAL_STATE] = LESSEQUAL_TOKEN;
 	mCorrespondingTokenTypes[GREATEREQUAL_STATE] = GREATEREQUAL_TOKEN;
 	mCorrespondingTokenTypes[NOTEQUAL_STATE] = NOTEQUAL_TOKEN;

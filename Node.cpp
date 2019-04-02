@@ -78,10 +78,10 @@ IfStatementNode::~IfStatementNode() {
 }
 
 void IfStatementNode::Interpret() {
-    if ( mExpression->Evaluate() ) {
-        mStatement1->Interpret();
-    } else {
-        mStatement2->Interpret();
+    if ( this->mExpression->Evaluate() ) {
+        this->mStatement1->Interpret();
+    } else if ( this->mStatement2 ) {
+        this->mStatement2->Interpret();
     }
 }
 
@@ -140,6 +140,10 @@ int MinusNode::Evaluate() {
 
 int TimesNode::Evaluate() {
     return this->mLeft->Evaluate() * this->mRight->Evaluate();
+}
+
+int ExponentNode::Evaluate() {
+    return pow(this->mLeft->Evaluate(), this->mRight->Evaluate());
 }
 
 int DivideNode::Evaluate() {

@@ -236,21 +236,38 @@ ExpressionNode * ParserClass::PlusMinus() {
 }
 
 ExpressionNode * ParserClass::TimesDivide() {
-    ExpressionNode * current = Factor();
+    ExpressionNode * current = Exponent();
     while ( true ) {
         TokenType tt = mScanner->PeekNextToken().GetTokenType();
         switch (tt)
         {
             case TIMES_TOKEN:
                 Match(tt);
-                current = new TimesNode( current, Factor() );
+                current = new TimesNode( current, Exponent() );
                 break;
             case DIVIDE_TOKEN:
                 Match(tt);
-                current = new DivideNode( current, Factor() );
+                current = new DivideNode( current, Exponent() );
                 break;
             default:
                 return current;
+        }
+    }
+}
+
+ExpressionNode * ParserClass::Exponent() {
+    ExpressionNode * current = Factor();
+    while ( true ) {
+        TokenType tt = mScanner->PeekNextToken().GetTokenType();
+        switch (tt)
+        {
+            case EXPONENT_TOKEN:
+                Match(tt);
+                current = new ExponentNode( current, Factor() );
+                break;
+            default:
+                return current;
+                break;
         }
     }
 }

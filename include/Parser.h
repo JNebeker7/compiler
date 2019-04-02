@@ -32,6 +32,7 @@ public:
     ExpressionNode * Relational();
     ExpressionNode * PlusMinus();
     ExpressionNode * TimesDivide();
+    ExpressionNode * Exponent();
     ExpressionNode * Factor();
     TokenClass Match(TokenType expectedType);
 private:
