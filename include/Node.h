@@ -106,8 +106,14 @@ private:
 
 class IfStatementNode : public StatementNode {
 public:
-    IfStatementNode() {};
+    IfStatementNode(ExpressionNode * expression, StatementNode * sn1, StatementNode * sn2)
+        : mExpression(expression), mStatement1(sn1), mStatement2(sn2) {};
+    ~IfStatementNode();
+    virtual void Interpret();
 private:
+    ExpressionNode * mExpression;
+    StatementNode * mStatement1;
+    StatementNode * mStatement2;
 };
 
 // // 10

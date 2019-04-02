@@ -52,6 +52,9 @@ StatementNode * ParserClass::Statement() {
     } else if (tc.GetTokenType() == COUT_TOKEN) {
         CoutStatementNode * coutStatementNode = CoutStatement();
         return coutStatementNode;
+    } else if (tc.GetTokenType() == IF_TOKEN) {
+        IfStatementNode * ifStatementNode = IfStatement();
+        return ifStatementNode;
     }
     return NULL;
 }
@@ -77,10 +80,27 @@ AssignmentStatementNode * ParserClass::AssignmentStatement() {
 CoutStatementNode * ParserClass::CoutStatement() {
     Match(COUT_TOKEN);
     Match(INSERTION_TOKEN);
-    ExpressionNode * expressionNode =  Expression();
+    ExpressionNode * expressionNode = Expression();
     Match(SEMICOLON_TOKEN);
     CoutStatementNode * coutStatementNode = new CoutStatementNode(expressionNode);
     return coutStatementNode;
+}
+
+IfStatementNode * ParserClass::IfStatement() {
+    Match(IF_TOKEN);
+    Match(LPAREN_TOKEN);
+    ExpressionNode * expressionNode = Expression();
+    Match(RPAREN_TOKEN);
+    StatementNode * statement1, * statement2;
+    statement1 = Statement();
+    statement2 = NULL;
+    TokenType tt = mScanner->PeekNextToken().GetTokenType();
+    if ( tt == ELSE_TOKEN ) {
+        Match(tt);
+        statement2 = Statement();
+    }
+    IfStatementNode * ifStatmentnode = new IfStatementNode(expressionNode, statement1, statement2);
+    return ifStatmentnode;
 }
 
 IdentifierNode * ParserClass::Identifier() {

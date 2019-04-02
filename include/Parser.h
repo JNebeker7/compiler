@@ -22,6 +22,7 @@ public:
     DeclarationStatementNode * DeclarationStatement();
     AssignmentStatementNode * AssignmentStatement();
     CoutStatementNode * CoutStatement();
+    IfStatementNode * IfStatement();
     IdentifierNode * Identifier();
     ExpressionNode * Integer();
     ExpressionNode * Expression();

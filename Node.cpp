@@ -70,6 +70,21 @@ void CoutStatementNode::Interpret() {
     cout << this->mExpressionNode->Evaluate() << endl;
 }
 
+void IfStatementNode::Interpret() {
+    if (mExpression->Evaluate()) {
+        mStatement1->Interpret();
+    } else {
+        mStatement2->Interpret();
+    }
+}
+
+IfStatementNode::~IfStatementNode() {
+    delete this->mExpression;
+    delete this->mStatement1;
+    delete this->mStatement2;
+    MSG("IFSTATEMENTNODE DELETE");
+}
+
 ExpressionNode::~ExpressionNode() {
     // MSG("")
 }
