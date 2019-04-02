@@ -75,12 +75,18 @@ DeclarationStatementNode * ParserClass::DeclarationStatement() {
 }
 
 AssignmentStatementNode * ParserClass::AssignmentStatement() {
-
     IdentifierNode * identifierNode = Identifier();
+    ExpressionNode * expressionNode;
     TokenType tt = mScanner->PeekNextToken().GetTokenType();
-    if ( tt == ASSIGNMENT_TOKEN ) {
+    if ( tt == PLUSEQUAL_TOKEN ) {
         Match(tt);
-        ExpressionNode * expressionNode = Expression();
+        expressionNode = Expression();
+        Match(SEMICOLON_TOKEN);
+        PlusEqualNode * plusEqualNode = new PlusEqualNode(identifierNode, expressionNode);
+        return plusEqualNode;
+    } else if ( tt == ASSIGNMENT_TOKEN ) {
+        Match(tt);
+        expressionNode = Expression();
         Match(SEMICOLON_TOKEN);
         AssignmentStatementNode * asn = new AssignmentStatementNode(identifierNode, expressionNode);
         return asn;

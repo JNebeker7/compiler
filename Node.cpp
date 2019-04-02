@@ -134,6 +134,11 @@ int PlusNode::Evaluate() {
     return this->mLeft->Evaluate() + this->mRight->Evaluate();
 }
 
+void PlusEqualNode::Interpret() {
+    int new_value = this->getIdentifier()->Evaluate() + this->getExpression()->Evaluate();
+    this->getIdentifier()->SetValue(new_value);
+}
+
 int MinusNode::Evaluate() {
     return this->mLeft->Evaluate() - this->mRight->Evaluate();
 }

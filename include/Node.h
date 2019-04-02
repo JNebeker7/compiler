@@ -19,11 +19,24 @@ class DeclarationStatementNode;
 class IdentifierNode;
 class ExpressionNode;
 class CoutStatementNode;
+class IfStatementNode;
+class WhileStatementNode;
 class IntegerNode;
 class BinaryOperatorNode;
 class PlusNode;
-class IfStatementNode;
-class WhileStatementNode;
+class PlusEqualNode;
+class MinusNode;
+class TimesNode;
+class ExponentNode;
+class DivideNode;
+class LessNode;
+class LessEqualNode;
+class GreaterNode;
+class GreaterEqualNode;
+class EqualNode;
+class NotEqualNode;
+class LogicalANDnode;
+class LogicalORnode;
 
 class Node {
 public:
@@ -89,6 +102,12 @@ public:
     AssignmentStatementNode(IdentifierNode * IdentifierNode, ExpressionNode * ExpressionNode) 
                             : mIdentifierNode(IdentifierNode), mExpressionNode(ExpressionNode) {};
     ~AssignmentStatementNode();
+    IdentifierNode * getIdentifier() {
+        return this->mIdentifierNode;
+    };
+    ExpressionNode * getExpression() {
+        return this->mExpressionNode;
+    };
     virtual void Interpret();
 private:
     IdentifierNode * mIdentifierNode;
@@ -180,6 +199,13 @@ public:
     PlusNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
     virtual int Evaluate();
+};
+
+class PlusEqualNode : public AssignmentStatementNode {
+public:
+    PlusEqualNode(IdentifierNode * left, ExpressionNode * right)
+        : AssignmentStatementNode(left, right) {};
+    virtual void Interpret();
 };
 
 // chapter 5
