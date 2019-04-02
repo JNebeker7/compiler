@@ -65,5 +65,14 @@ void main()
 	cout << pe;
 	pe += Num;
 	cout << pe;
+	int el;
+	el = 1;
+	if (el == 2) {
+		cout << 99999;
+	} else if (el == 0) {
+		cout << 888888;
+	} else {
+		cout << el;
+	}
 }
 
