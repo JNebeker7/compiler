@@ -1,5 +1,7 @@
 #include "include/Node.h"
 
+int gCount = 0;
+
 Node::~Node(){
     // MSG("NODE DELETE");
 }
@@ -95,6 +97,24 @@ void WhileStatementNode::Interpret() {
     // while the expression is true. interpret the statement
     while ( mExpression->Evaluate() ) {
         mStatement->Interpret();
+    }
+}
+
+RepeatNode::~RepeatNode() {
+    delete this->mExpression;
+    delete this->mStatement;
+}
+
+void RepeatNode::Interpret() {
+    // cout << "hello " << this->mIdentifier->Evaluate() << endl;
+    // for(int i = 0; i < this->mIdentifier->Evaluate(); i++) {
+    //     cout << "hello world" << endl;
+    // }
+    // cout << "hello " << mExpression->Evaluate() << endl;
+    gCount = mExpression->Evaluate();
+    for ( int i = 0; i < gCount; i++ ) {
+        mStatement->Interpret();
+        
     }
 }
 
