@@ -62,8 +62,23 @@ StatementNode * ParserClass::Statement() {
     } else if ( tt == LCURLY_TOKEN ) {
         BlockNode * blockNode = Block();
         return blockNode;
+    } else if ( tt == REPEAT_TOKEN ) {
+        RepeatNode * repeatNode = Repeat();
+        return repeatNode;
+        // cout << "found repeat token" << endl;
     }
     return NULL;
+}
+
+RepeatNode * ParserClass::Repeat() {
+    Match(REPEAT_TOKEN);
+    Match(LPAREN_TOKEN);
+    ExpressionNode * expressionNode = Expression();
+    // cout << "lockin " << expressionNode->Evaluate() << endl;
+    Match(RPAREN_TOKEN);
+    StatementNode * statementNode = Statement();
+    RepeatNode * r = new RepeatNode(expressionNode, statementNode);
+    return r;
 }
 
 DeclarationStatementNode * ParserClass::DeclarationStatement() {

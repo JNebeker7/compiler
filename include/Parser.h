@@ -20,6 +20,7 @@ public:
     StatementGroupNode * StatementGroup();
     StatementNode * Statement();
     DeclarationStatementNode * DeclarationStatement();
+    RepeatNode * Repeat();
     AssignmentStatementNode * AssignmentStatement();
     CoutStatementNode * CoutStatement();
     IfStatementNode * IfStatement();

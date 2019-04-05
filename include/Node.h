@@ -29,6 +29,7 @@ class MinusNode;
 class TimesNode;
 class ExponentNode;
 class DivideNode;
+class RepeatNode;
 class LessNode;
 class LessEqualNode;
 class GreaterNode;
@@ -37,6 +38,7 @@ class EqualNode;
 class NotEqualNode;
 class LogicalANDnode;
 class LogicalORnode;
+
 
 class Node {
 public:
@@ -142,6 +144,17 @@ public:
     WhileStatementNode(ExpressionNode * expression, StatementNode * statement)
         : mExpression(expression), mStatement(statement) {};
     ~WhileStatementNode();
+    virtual void Interpret();
+private:
+    ExpressionNode * mExpression;
+    StatementNode * mStatement;
+};
+
+class RepeatNode : public StatementNode {
+public:
+    RepeatNode(ExpressionNode * expression, StatementNode * statement)
+        : mExpression(expression), mStatement(statement) {};
+    ~RepeatNode();
     virtual void Interpret();
 private:
     ExpressionNode * mExpression;
