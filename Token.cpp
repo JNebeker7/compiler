@@ -12,7 +12,6 @@ TokenClass::TokenClass() {
 
 TokenClass::TokenClass( TokenType tt, const string & lexeme ) 
     : mType( tt ), mLexeme( lexeme ) {
-
 }
 
 void TokenClass::CheckReserved() {
