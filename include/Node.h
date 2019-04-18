@@ -3,6 +3,7 @@
 #define _NODE_H_
 #include "Symbol.h"
 #include "Debug.h"
+#include "Instructions.h"
 #include <vector>
 #include <string>
 #include <math.h>
@@ -39,6 +40,18 @@ class NotEqualNode;
 class LogicalANDnode;
 class LogicalORnode;
 
+// Node
+// StartNode
+// ProgramNode
+// BlockNode
+// StatementGroupNode   **** This will call Code on all of the items in its vector
+//    DeclarationStatementNode  
+//    CoutStatementNode
+//    AssignmentStatementNode
+
+
+// *** Interpret calls evaluate & Code calls codeEvaluate
+
 
 class Node {
 public:
@@ -51,6 +64,9 @@ public:
     StartNode( ProgramNode * ProgramNode ) : mProgramNode(ProgramNode) {};
     ~StartNode();
     void Interpret();
+    void Code( InstructionsClass &code ) {
+        mProgramNode->Code(code);
+    };
 private:
     ProgramNode * mProgramNode;
 };
@@ -60,6 +76,9 @@ public:
     ProgramNode( BlockNode * BlockNode ) : mBlockNode(BlockNode) {};
     ~ProgramNode();
     void Interpret();
+    void Code( InstructionsClass &code ) {
+        
+    };
 private:
     BlockNode * mBlockNode;
 };
@@ -67,6 +86,7 @@ private:
 class StatementNode : public Node {
 public:
     virtual void Interpret() = 0;
+    virtual void Code(InstructionsClass &code);
 };
 
 class StatementGroupNode : public Node {
@@ -75,6 +95,7 @@ public:
     ~StatementGroupNode();
     void AddStatement( StatementNode * StatementNode );
     virtual void Interpret();
+    void Code( InstructionsClass &code );
 private:
     vector<StatementNode *> mStatementGroupNodes;
 };
@@ -84,6 +105,9 @@ public:
     BlockNode( StatementGroupNode * StatementGroupNode ) : mStatementGroupNode(StatementGroupNode) {};
     ~BlockNode();
     void Interpret();
+    void Code( InstructionsClass &code ) {
+        mStatementGroupNode->Code(code);
+    };
 private:
     StatementGroupNode * mStatementGroupNode;
 };
@@ -94,6 +118,7 @@ public:
                             : mIdentifierNode(IdentifierNode) {};
     ~DeclarationStatementNode();
     virtual void Interpret();
+    void Code( InstructionsClass &code );
 protected:
     IdentifierNode * mIdentifierNode;
 };
@@ -165,7 +190,8 @@ private:
 class ExpressionNode {
 public:
     virtual ~ExpressionNode();
-    virtual int Evaluate() = 0;   
+    virtual int Evaluate() = 0;
+    virtual void CodeEvaluate(InstructionsClass &code) = 0;
 };
 
 // // 11

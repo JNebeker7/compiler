@@ -2,7 +2,7 @@
 
 int gCount = 0;
 
-Node::~Node(){
+Node::~Node() {
     // MSG("NODE DELETE");
 }
 
@@ -45,12 +45,20 @@ void StatementGroupNode::Interpret() {
         this->mStatementGroupNodes[i]->Interpret();
     }
 }
+void StatementGroupNode::Code(InstructionsClass &code) {
+    for (size_t i = 0; i < mStatementGroupNodes.size(); i++) {
+        this->mStatementGroupNodes[i]->Code(code);
+    }
+}
 
 DeclarationStatementNode::~DeclarationStatementNode() {
     // MSG("DECLARATIONSTATEMENT DELETE");
     delete this->mIdentifierNode;
 }
 void DeclarationStatementNode::Interpret() {
+    this->mIdentifierNode->DeclareVariable();
+}
+void DeclarationStatementNode::Code(InstructionsClass &code) {
     this->mIdentifierNode->DeclareVariable();
 }
 
@@ -106,11 +114,6 @@ RepeatNode::~RepeatNode() {
 }
 
 void RepeatNode::Interpret() {
-    // cout << "hello " << this->mIdentifier->Evaluate() << endl;
-    // for(int i = 0; i < this->mIdentifier->Evaluate(); i++) {
-    //     cout << "hello world" << endl;
-    // }
-    // cout << "hello " << mExpression->Evaluate() << endl;
     gCount = mExpression->Evaluate();
     for ( int i = 0; i < gCount; i++ ) {
         mStatement->Interpret();

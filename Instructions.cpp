@@ -60,10 +60,9 @@ void InstructionsClass::Encode(unsigned char c) {
 }
 
 void InstructionsClass::Encode(int x) {
-    *((int*) (&( mCode [mCurrent]))) = x;
-    mCurrent += 4;
     if ( mCurrent < MAX_INSTRUCTIONS ) {
-        mCode[mCurrent++] = x;
+		*((int*) (&( mCode [mCurrent]))) = x;
+		mCurrent += 4;
     } else {
         cerr << "Error, Used up all " << MAX_INSTRUCTIONS
                     << " instruction." << endl;
@@ -73,6 +72,18 @@ void InstructionsClass::Encode(int x) {
 
 void InstructionsClass::Encode(long long x)
 {
+	if (mCurrent < MAX_INSTRUCTIONS)
+	{
+		*((long long *)(&(mCode[mCurrent]))) = x;
+		mCurrent += 8;
+	}
+	else
+	{
+		cerr << "Error.  Used up all " << MAX_INSTRUCTIONS
+			<< " instructions." << endl;
+		exit(1);
+	}
+
 }
 
 void InstructionsClass::Encode(void * p)
@@ -138,8 +149,10 @@ void InstructionsClass::PrintAllMachineCodes()
 	}
 }
 
-void InstructionsClass::PushValue(int value)
-{
+void InstructionsClass::PushValue(int value) {
+	Encode(IMMEDIATE_TO_EAX);
+	Encode(value);
+	Encode(PUSH_EAX);
 }
 
 void InstructionsClass::Call(void * function_address)
@@ -191,8 +204,14 @@ void InstructionsClass::PushVariable(unsigned int index)
 
 }
 
-void InstructionsClass::PopAndStore(unsigned int index)
-{
+void InstructionsClass::PopAndStore(unsigned int index) {
+
+	int * variable_address = GetMem(index);
+
+	Encode(POP_EAX);
+	Encode(EAX_TO_MEM);
+	Encode(variable_address);
+
 }
 
 
@@ -218,12 +237,20 @@ void InstructionsClass::PopPopAddPush()
 	Encode(PUSH_EAX);
 }
 
-void InstructionsClass::PopPopSubPush()
-{
+void InstructionsClass::PopPopSubPush() {
+	Encode(POP_EBX);
+	Encode(POP_EAX);
+	Encode(SUB_EAX_EBX1);
+	Encode(SUB_EAX_EBX2);
+	Encode(PUSH_EAX);
 }
 
-void InstructionsClass::PopPopMulPush()
-{
+void InstructionsClass::PopPopMulPush() {
+	Encode(POP_EBX);
+	Encode(POP_EAX);
+	Encode(MUL_EAX_EBX1);
+	Encode(MUL_EAX_EBX2);
+	Encode(PUSH_EAX);
 }
 
 void InstructionsClass::PopPopDivPush()
@@ -261,20 +288,20 @@ void InstructionsClass::PopPopLessEqualPush()
 	PopPopComparePush(JLE);
 }
 
-void InstructionsClass::PopPopGreaterPush()
-{
+void InstructionsClass::PopPopGreaterPush() {
+	PopPopComparePush(JG);
 }
 
-void InstructionsClass::PopPopGreaterEqualPush()
-{
+void InstructionsClass::PopPopGreaterEqualPush() {
+	PopPopComparePush(JGE);
 }
 
-void InstructionsClass::PopPopEqualPush()
-{
+void InstructionsClass::PopPopEqualPush() {
+	PopPopComparePush(JE);
 }
 
-void InstructionsClass::PopPopNotEqualPush()
-{
+void InstructionsClass::PopPopNotEqualPush() {
+	PopPopComparePush(JNE);
 }
 
 void InstructionsClass::PopPopAndPush()
