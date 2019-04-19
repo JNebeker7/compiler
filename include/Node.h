@@ -64,9 +64,7 @@ public:
     StartNode( ProgramNode * ProgramNode ) : mProgramNode(ProgramNode) {};
     ~StartNode();
     void Interpret();
-    void Code( InstructionsClass &code ) {
-        mProgramNode->Code(code);
-    };
+    void Code( InstructionsClass &code );
 private:
     ProgramNode * mProgramNode;
 };
@@ -76,9 +74,7 @@ public:
     ProgramNode( BlockNode * BlockNode ) : mBlockNode(BlockNode) {};
     ~ProgramNode();
     void Interpret();
-    void Code( InstructionsClass &code ) {
-        
-    };
+    void Code( InstructionsClass &code );
 private:
     BlockNode * mBlockNode;
 };
@@ -86,7 +82,7 @@ private:
 class StatementNode : public Node {
 public:
     virtual void Interpret() = 0;
-    virtual void Code(InstructionsClass &code);
+    // virtual void Code(InstructionsClass &code) = 0;
 };
 
 class StatementGroupNode : public Node {
@@ -105,9 +101,7 @@ public:
     BlockNode( StatementGroupNode * StatementGroupNode ) : mStatementGroupNode(StatementGroupNode) {};
     ~BlockNode();
     void Interpret();
-    void Code( InstructionsClass &code ) {
-        mStatementGroupNode->Code(code);
-    };
+    void Code( InstructionsClass &code );
 private:
     StatementGroupNode * mStatementGroupNode;
 };
@@ -136,6 +130,7 @@ public:
         return this->mExpressionNode;
     };
     virtual void Interpret();
+    virtual void Code( InstructionsClass &code );
 private:
     IdentifierNode * mIdentifierNode;
     ExpressionNode * mExpressionNode;
@@ -148,6 +143,7 @@ public:
                         : mExpressionNode(express) {};
     ~CoutStatementNode();
     virtual void Interpret();
+    virtual void Code( InstructionsClass &code );
 private:
     ExpressionNode * mExpressionNode;
 };
@@ -191,7 +187,7 @@ class ExpressionNode {
 public:
     virtual ~ExpressionNode();
     virtual int Evaluate() = 0;
-    virtual void CodeEvaluate(InstructionsClass &code) = 0;
+    // virtual void CodeEvaluate(InstructionsClass &code) = 0;
 };
 
 // // 11

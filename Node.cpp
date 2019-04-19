@@ -6,6 +6,7 @@ Node::~Node() {
     // MSG("NODE DELETE");
 }
 
+
 StartNode::~StartNode() {
     // MSG("START DELETE");
     delete this->mProgramNode; 
@@ -13,6 +14,10 @@ StartNode::~StartNode() {
 void StartNode::Interpret() {
     this->mProgramNode->Interpret();
 }
+void StartNode::Code(InstructionsClass &code) {
+    this->mProgramNode->Code(code);
+}
+
 
 ProgramNode::~ProgramNode() {
     // MSG("PROGRAM DELETE");
@@ -21,6 +26,10 @@ ProgramNode::~ProgramNode() {
 void ProgramNode::Interpret() {
     this->mBlockNode->Interpret();
 }
+void ProgramNode::Code(InstructionsClass &code) {
+    this->mBlockNode->Code(code);
+}
+
 
 BlockNode::~BlockNode() {
     // MSG("BLOCK DELETE");
@@ -29,6 +38,10 @@ BlockNode::~BlockNode() {
 void BlockNode::Interpret() {
     this->mStatementGroupNode->Interpret();
 }
+void BlockNode::Code(InstructionsClass &code) {
+    this->mStatementGroupNode->Code(code);
+}
+
 
 void StatementGroupNode::AddStatement( StatementNode * StatementNode ) {
     this->mStatementGroupNodes.push_back( StatementNode );
@@ -62,6 +75,7 @@ void DeclarationStatementNode::Code(InstructionsClass &code) {
     this->mIdentifierNode->DeclareVariable();
 }
 
+
 AssignmentStatementNode::~AssignmentStatementNode() {
     // MSG("ASSIGNMENTSTATEMENT DELETE")
     delete this->mExpressionNode;
@@ -71,6 +85,10 @@ void AssignmentStatementNode::Interpret() {
     int val = this->mExpressionNode->Evaluate();
     this->mIdentifierNode->SetValue(val);
 }
+void AssignmentStatementNode::Code(InstructionsClass &code) {
+
+}
+
 
 CoutStatementNode::~CoutStatementNode() {
     // MSG("COUTSTATEMENTNODE DELETE");
@@ -79,6 +97,10 @@ CoutStatementNode::~CoutStatementNode() {
 void CoutStatementNode::Interpret() {
     cout << this->mExpressionNode->Evaluate() << endl;
 }
+void CoutStatementNode::Code(InstructionsClass &code) {
+
+}
+
 
 IfStatementNode::~IfStatementNode() {
     delete this->mExpression;
@@ -95,12 +117,12 @@ void IfStatementNode::Interpret() {
     }
 }
 
+
 WhileStatementNode::~WhileStatementNode() {
     delete this->mExpression;
     delete this->mStatement;
     // MSG("WHILESTATEMENTNODE DELETE")
 }
-
 void WhileStatementNode::Interpret() {
     // while the expression is true. interpret the statement
     while ( mExpression->Evaluate() ) {
@@ -108,11 +130,11 @@ void WhileStatementNode::Interpret() {
     }
 }
 
+
 RepeatNode::~RepeatNode() {
     delete this->mExpression;
     delete this->mStatement;
 }
-
 void RepeatNode::Interpret() {
     gCount = mExpression->Evaluate();
     for ( int i = 0; i < gCount; i++ ) {
@@ -121,9 +143,11 @@ void RepeatNode::Interpret() {
     }
 }
 
+
 ExpressionNode::~ExpressionNode() {
     // MSG("")
 }
+
 
 IntegerNode::~IntegerNode() {
     // MSG("INTEGERNODE DELETE");
@@ -131,6 +155,7 @@ IntegerNode::~IntegerNode() {
 int IntegerNode::Evaluate() {
     return this->mValue;
 }
+
 
 IdentifierNode::~IdentifierNode() {
     // MSG("IDENTIFIERNODE DELETE");
@@ -147,6 +172,7 @@ int IdentifierNode::GetIndex() {
 int IdentifierNode::Evaluate() {
     return this->mSymbolTable->GetValue(this->mLabel);
 }
+
 
 BinaryOperatorNode::~BinaryOperatorNode() {
     // MSG("BINARYOPERATORNODE DELETE");
