@@ -49,7 +49,6 @@ void StatementGroupNode::AddStatement( StatementNode * StatementNode ) {
 StatementGroupNode::~StatementGroupNode() {
     // MSG("STATEMENTGROUPNODE DELETE");
     for (int i = 0; i < mStatementGroupNodes.size(); i++) {
-        // MSG("STATEMENTNODE " << i << " DELETE");
         delete mStatementGroupNodes[i];
     }
 }
@@ -86,7 +85,9 @@ void AssignmentStatementNode::Interpret() {
     this->mIdentifierNode->SetValue(val);
 }
 void AssignmentStatementNode::Code(InstructionsClass &code) {
-
+    this->mExpressionNode->CodeEvaluate(code);
+    int index = this->mIdentifierNode->GetIndex();
+    // code.PopAndStore(index);
 }
 
 
@@ -98,7 +99,8 @@ void CoutStatementNode::Interpret() {
     cout << this->mExpressionNode->Evaluate() << endl;
 }
 void CoutStatementNode::Code(InstructionsClass &code) {
-
+    this->mExpressionNode->CodeEvaluate(code);
+    // code.PopAndWrite();
 }
 
 
@@ -116,6 +118,9 @@ void IfStatementNode::Interpret() {
         this->mStatement2->Interpret();
     }
 }
+void IfStatementNode::Code(InstructionsClass &code) {
+
+}
 
 
 WhileStatementNode::~WhileStatementNode() {
@@ -128,6 +133,9 @@ void WhileStatementNode::Interpret() {
     while ( mExpression->Evaluate() ) {
         mStatement->Interpret();
     }
+}
+void WhileStatementNode::Code(InstructionsClass &code) {
+
 }
 
 
@@ -142,6 +150,9 @@ void RepeatNode::Interpret() {
         
     }
 }
+void RepeatNode::Code(InstructionsClass &code) {
+
+}
 
 
 ExpressionNode::~ExpressionNode() {
@@ -155,6 +166,10 @@ IntegerNode::~IntegerNode() {
 int IntegerNode::Evaluate() {
     return this->mValue;
 }
+void IntegerNode::CodeEvaluate(InstructionsClass &code) {
+    // code.PushValue(this->mValue);
+}
+
 
 
 IdentifierNode::~IdentifierNode() {
@@ -172,6 +187,9 @@ int IdentifierNode::GetIndex() {
 int IdentifierNode::Evaluate() {
     return this->mSymbolTable->GetValue(this->mLabel);
 }
+void IdentifierNode::CodeEvaluate(InstructionsClass &code) {
+    // code.PushVariable(GetIndex());
+}
 
 
 BinaryOperatorNode::~BinaryOperatorNode() {
@@ -182,56 +200,98 @@ BinaryOperatorNode::~BinaryOperatorNode() {
 int PlusNode::Evaluate() {
     return this->mLeft->Evaluate() + this->mRight->Evaluate();
 }
+void PlusNode::CodeEvaluate(InstructionsClass &code) {
+
+}
 
 void PlusEqualNode::Interpret() {
     int new_value = this->getIdentifier()->Evaluate() + this->getExpression()->Evaluate();
     this->getIdentifier()->SetValue(new_value);
 }
+void PlusEqualNode::Code(InstructionsClass &code) {
+
+}
 
 int MinusNode::Evaluate() {
     return this->mLeft->Evaluate() - this->mRight->Evaluate();
+}
+void MinusNode::CodeEvaluate(InstructionsClass &code) {
+
 }
 
 int TimesNode::Evaluate() {
     return this->mLeft->Evaluate() * this->mRight->Evaluate();
 }
+void TimesNode::CodeEvaluate(InstructionsClass &code) {
+
+}
 
 int ExponentNode::Evaluate() {
     return pow(this->mLeft->Evaluate(), this->mRight->Evaluate());
+}
+void ExponentNode::CodeEvaluate(InstructionsClass &code) {
+
 }
 
 int DivideNode::Evaluate() {
     return this->mLeft->Evaluate() / this->mRight->Evaluate();
 }
+void DivideNode::CodeEvaluate(InstructionsClass &code) {
 
+}
+/////////
 int LessNode::Evaluate() {
     return (this->mLeft->Evaluate() < this->mRight->Evaluate()) ? 1 : 0;
+}
+void LessNode::CodeEvaluate(InstructionsClass &code) {
+
 }
 
 int LessEqualNode::Evaluate() {
     return (this->mLeft->Evaluate() <= this->mRight->Evaluate()) ? 1 : 0;
 }
+void LessEqualNode::CodeEvaluate(InstructionsClass &code) {
+
+}
 
 int GreaterNode::Evaluate() {
     return (this->mLeft->Evaluate() > this->mRight->Evaluate()) ? 1 : 0;
+}
+void GreaterNode::CodeEvaluate(InstructionsClass &code) {
+
 }
 
 int GreaterEqualNode::Evaluate() {
     return (this->mLeft->Evaluate() >= this->mRight->Evaluate()) ? 1 : 0;
 }
+void GreaterEqualNode::CodeEvaluate(InstructionsClass &code) {
+
+}
 
 int EqualNode::Evaluate() {
     return (this->mLeft->Evaluate() == this->mRight->Evaluate()) ? 1 : 0;
+}
+void EqualNode::CodeEvaluate(InstructionsClass &code) {
+
 }
 
 int NotEqualNode::Evaluate() {
     return (this->mLeft->Evaluate() != this->mRight->Evaluate()) ? 1 : 0;
 }
+void NotEqualNode::CodeEvaluate(InstructionsClass &code) {
+
+}
 
 int LogicalANDnode::Evaluate() {
     return ( this->mLeft->Evaluate() && this->mRight->Evaluate() ) ? 1 : 0;
 }
+void LogicalANDnode::CodeEvaluate(InstructionsClass &code) {
+
+}
 
 int LogicalORnode::Evaluate() {
     return ( this->mLeft->Evaluate() || this->mRight->Evaluate() ) ? 1 : 0;
+}
+void LogicalORnode::CodeEvaluate(InstructionsClass &code) {
+
 }

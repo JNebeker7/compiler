@@ -4,6 +4,7 @@
 #include "include/Node.h"
 #include "include/Symbol.h"
 #include "include/Parser.h"
+#include "include/Instructions.h"
 
 using std::cout;
 using std::endl;
