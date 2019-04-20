@@ -132,17 +132,32 @@ bool test_interpreter() {
 	return true;
 }
 
+bool test_code() {
+	MSG("\nTest Code");
+	ScannerClass scanner("code.cpp");
+	SymbolTable symbolTable = SymbolTable();
+	ParserClass * parser = new ParserClass(&scanner, &symbolTable);
+	StartNode * root = parser->Start();
+	InstructionsClass code;
+	root->Code(code);
+    code.Finish();
+	// code.PrintAllMachineCodes();
+    code.Execute();
+
+}
+
 int main() {
-	const int tests_count = 6;
+	const int tests_count = 9;
 	Tests tests[tests_count] = {
 		test_token_type,
 		test_scanner,
 		test_symbols,
 		test_node,
-		// test_expressions,
-		// test_parserNoOutput,
+		test_expressions,
+		test_parserNoOutput,
 		test_parserWithOutput,
 		test_interpreter,
+		test_code,
 	};
 
 	for (int i = 0; i < tests_count; i++) {

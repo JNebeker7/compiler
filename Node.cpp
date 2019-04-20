@@ -87,7 +87,7 @@ void AssignmentStatementNode::Interpret() {
 void AssignmentStatementNode::Code(InstructionsClass &code) {
     this->mExpressionNode->CodeEvaluate(code);
     int index = this->mIdentifierNode->GetIndex();
-    // code.PopAndStore(index);
+    code.PopAndStore(index);
 }
 
 
@@ -100,7 +100,7 @@ void CoutStatementNode::Interpret() {
 }
 void CoutStatementNode::Code(InstructionsClass &code) {
     this->mExpressionNode->CodeEvaluate(code);
-    // code.PopAndWrite();
+    code.PopAndWrite();
 }
 
 
@@ -119,7 +119,19 @@ void IfStatementNode::Interpret() {
     }
 }
 void IfStatementNode::Code(InstructionsClass &code) {
+    this->mExpression->CodeEvaluate(code);
+    unsigned char * jumpAddress = code.SkipIfZeroStack();
+	unsigned char * address1 = code.GetAddress();
+    this->mStatement1->Code(code);
+    unsigned char * endBlock1 = code.Jump();
+    unsigned char * address2 = code.GetAddress();
+    code.SetOffset(jumpAddress, (int)(address2 - address1));
 
+    if (this->mStatement2 != NULL) {
+        this->mStatement2->Code(code);
+        unsigned char * address3 = code.GetAddress();
+        code.SetOffset(endBlock1, (int)(address3 - address2));
+    }
 }
 
 
@@ -167,7 +179,7 @@ int IntegerNode::Evaluate() {
     return this->mValue;
 }
 void IntegerNode::CodeEvaluate(InstructionsClass &code) {
-    // code.PushValue(this->mValue);
+    code.PushValue(this->mValue);
 }
 
 
@@ -188,7 +200,7 @@ int IdentifierNode::Evaluate() {
     return this->mSymbolTable->GetValue(this->mLabel);
 }
 void IdentifierNode::CodeEvaluate(InstructionsClass &code) {
-    // code.PushVariable(GetIndex());
+    code.PushVariable(GetIndex());
 }
 
 
@@ -201,7 +213,9 @@ int PlusNode::Evaluate() {
     return this->mLeft->Evaluate() + this->mRight->Evaluate();
 }
 void PlusNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopAddPush();
 }
 
 void PlusEqualNode::Interpret() {
@@ -216,21 +230,49 @@ int MinusNode::Evaluate() {
     return this->mLeft->Evaluate() - this->mRight->Evaluate();
 }
 void MinusNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopSubPush();
 }
 
 int TimesNode::Evaluate() {
     return this->mLeft->Evaluate() * this->mRight->Evaluate();
 }
 void TimesNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopMulPush();
 }
 
 int ExponentNode::Evaluate() {
     return pow(this->mLeft->Evaluate(), this->mRight->Evaluate());
 }
 void ExponentNode::CodeEvaluate(InstructionsClass &code) {
-
+	int counter = 1000;
+	int holder = 1001;
+	code.PushValue(0);
+	code.PopAndStore(counter);
+	code.PushValue(1);
+	code.PopAndStore(holder);
+	unsigned char * address1 = code.GetAddress();
+	code.PushVariable(counter);
+	this->mRight->CodeEvaluate(code);
+	code.PopPopLessPush();
+	unsigned char * afterExp = code.SkipIfZeroStack();
+	unsigned char * address2 = code.GetAddress();
+	code.PushVariable(holder);
+	this->mLeft->CodeEvaluate(code);
+	code.PopPopMulPush();
+	code.PopAndStore(holder);
+	code.PushVariable(counter);
+	code.PushValue(1);
+	code.PopPopAddPush();
+	code.PopAndStore(counter);
+	unsigned char * start = code.Jump();
+	unsigned char * address3 = code.GetAddress();
+	code.SetOffset(afterExp, (int)(address3 - address2));
+	code.SetOffset(start, (int)(address1 - address3));
+	code.PushVariable(holder);
 }
 
 int DivideNode::Evaluate() {
