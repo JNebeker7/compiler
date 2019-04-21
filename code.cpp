@@ -1,7 +1,8 @@
 void main()
 {
 	int sum;
-	sum = 8 ** 2;
+	sum = 3;
+	sum += 2;
 	cout << sum;
 }
 

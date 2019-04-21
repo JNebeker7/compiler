@@ -223,7 +223,10 @@ void PlusEqualNode::Interpret() {
     this->getIdentifier()->SetValue(new_value);
 }
 void PlusEqualNode::Code(InstructionsClass &code) {
-
+    this->getIdentifier()->CodeEvaluate(code);
+    this->getExpression()->CodeEvaluate(code);
+    code.PopPopAddPush();
+    code.PopAndStore(this->getIdentifier()->GetIndex());
 }
 
 int MinusNode::Evaluate() {
@@ -248,92 +251,86 @@ int ExponentNode::Evaluate() {
     return pow(this->mLeft->Evaluate(), this->mRight->Evaluate());
 }
 void ExponentNode::CodeEvaluate(InstructionsClass &code) {
-	int counter = 1000;
-	int holder = 1001;
-	code.PushValue(0);
-	code.PopAndStore(counter);
-	code.PushValue(1);
-	code.PopAndStore(holder);
-	unsigned char * address1 = code.GetAddress();
-	code.PushVariable(counter);
-	this->mRight->CodeEvaluate(code);
-	code.PopPopLessPush();
-	unsigned char * afterExp = code.SkipIfZeroStack();
-	unsigned char * address2 = code.GetAddress();
-	code.PushVariable(holder);
-	this->mLeft->CodeEvaluate(code);
-	code.PopPopMulPush();
-	code.PopAndStore(holder);
-	code.PushVariable(counter);
-	code.PushValue(1);
-	code.PopPopAddPush();
-	code.PopAndStore(counter);
-	unsigned char * start = code.Jump();
-	unsigned char * address3 = code.GetAddress();
-	code.SetOffset(afterExp, (int)(address3 - address2));
-	code.SetOffset(start, (int)(address1 - address3));
-	code.PushVariable(holder);
+
 }
 
 int DivideNode::Evaluate() {
     return this->mLeft->Evaluate() / this->mRight->Evaluate();
 }
 void DivideNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopDivPush();
 }
 /////////
 int LessNode::Evaluate() {
     return (this->mLeft->Evaluate() < this->mRight->Evaluate()) ? 1 : 0;
 }
 void LessNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopLessPush();
 }
 
 int LessEqualNode::Evaluate() {
     return (this->mLeft->Evaluate() <= this->mRight->Evaluate()) ? 1 : 0;
 }
 void LessEqualNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopLessEqualPush();
 }
 
 int GreaterNode::Evaluate() {
     return (this->mLeft->Evaluate() > this->mRight->Evaluate()) ? 1 : 0;
 }
 void GreaterNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopGreaterPush();
 }
 
 int GreaterEqualNode::Evaluate() {
     return (this->mLeft->Evaluate() >= this->mRight->Evaluate()) ? 1 : 0;
 }
 void GreaterEqualNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopGreaterEqualPush();
 }
 
 int EqualNode::Evaluate() {
     return (this->mLeft->Evaluate() == this->mRight->Evaluate()) ? 1 : 0;
 }
 void EqualNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopEqualPush();
 }
 
 int NotEqualNode::Evaluate() {
     return (this->mLeft->Evaluate() != this->mRight->Evaluate()) ? 1 : 0;
 }
 void NotEqualNode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopNotEqualPush();
 }
 
 int LogicalANDnode::Evaluate() {
     return ( this->mLeft->Evaluate() && this->mRight->Evaluate() ) ? 1 : 0;
 }
 void LogicalANDnode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopAndPush();
 }
 
 int LogicalORnode::Evaluate() {
     return ( this->mLeft->Evaluate() || this->mRight->Evaluate() ) ? 1 : 0;
 }
 void LogicalORnode::CodeEvaluate(InstructionsClass &code) {
-
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopOrPush();
 }
