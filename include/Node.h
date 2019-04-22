@@ -40,6 +40,8 @@ class NotEqualNode;
 class LogicalANDnode;
 class LogicalORnode;
 
+class ModNode;
+
 // Node
 // StartNode
 // ProgramNode
@@ -275,6 +277,14 @@ public:
 class ExponentNode : public BinaryOperatorNode {
 public:
     ExponentNode(ExpressionNode * left, ExpressionNode * right)
+        : BinaryOperatorNode(left, right) {};
+    virtual int Evaluate();
+    virtual void CodeEvaluate(InstructionsClass &code);
+};
+
+class ModNode : public BinaryOperatorNode {
+public:
+    ModNode(ExpressionNode * left, ExpressionNode * right)
         : BinaryOperatorNode(left, right) {};
     virtual int Evaluate();
     virtual void CodeEvaluate(InstructionsClass &code);

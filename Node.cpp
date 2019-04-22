@@ -272,6 +272,15 @@ void ExponentNode::CodeEvaluate(InstructionsClass &code) {
 
 }
 
+int ModNode::Evaluate() {
+    return this->mLeft->Evaluate() % this->mRight->Evaluate();
+}
+void ModNode::CodeEvaluate(InstructionsClass &code) {
+    this->mLeft->CodeEvaluate(code);
+    this->mRight->CodeEvaluate(code);
+    code.PopPopModPush();
+}
+
 int DivideNode::Evaluate() {
     return this->mLeft->Evaluate() / this->mRight->Evaluate();
 }

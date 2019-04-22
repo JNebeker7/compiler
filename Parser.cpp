@@ -115,28 +115,28 @@ CoutStatementNode * ParserClass::CoutStatement() {
     Match(COUT_TOKEN);
     Match(INSERTION_TOKEN);
     CoutStatementNode * coutStatementNode = new CoutStatementNode();
-    coutStatementNode->AddExpression(Expression());
-    Match(SEMICOLON_TOKEN);
+    // coutStatementNode->AddExpression(Expression());
+    // Match(SEMICOLON_TOKEN);
+    TokenType tt;
 
-    // TokenType tt;
-
-    // while(true) {
-    //     tt = mScanner->PeekNextToken().GetTokenType();
-    //     cout << "tt = " << tt << endl;
-    //     if (tt == ENDL_TOKEN) {
-    //         Match(ENDL_TOKEN);
-    //         break;
-    //     } else if (tt == SEMICOLON_TOKEN) {
-    //         cout << "matched semicolon" << endl;
-    //         Match(SEMICOLON_TOKEN);
-    //         break;
-    //     } else {
-    //         cout << "after insertion" << endl;
-    //         Match(tt);
-    //         coutStatementNode->AddExpression(Expression());
-    //         // Match(INSERTION_TOKEN);
-    //     }
-    // }
+    while(true) {
+        tt = mScanner->PeekNextToken().GetTokenType();
+        if (tt == SEMICOLON_TOKEN) {
+            Match(SEMICOLON_TOKEN);
+            break;
+        }
+        if (tt == ENDL_TOKEN) {
+            Match(ENDL_TOKEN);
+            Match(SEMICOLON_TOKEN);
+            break;
+        } else {
+            coutStatementNode->AddExpression(Expression());
+            tt = mScanner->PeekNextToken().GetTokenType();
+            if (tt == INSERTION_TOKEN) {
+                Match(INSERTION_TOKEN);
+            }
+        }
+    }
 
     return coutStatementNode;
 }
@@ -170,6 +170,7 @@ WhileStatementNode * ParserClass::WhileStatement() {
 
 IdentifierNode * ParserClass::Identifier() {
     TokenClass tt = Match(IDENTIFIER_TOKEN);
+    // peek for '=' #4 of practice    
     IdentifierNode * identifierNode = new IdentifierNode(tt.GetLexeme(), mSymbolTable);
     return identifierNode;
 }
@@ -306,6 +307,10 @@ ExpressionNode * ParserClass::Exponent() {
             case EXPONENT_TOKEN:
                 Match(tt);
                 current = new ExponentNode( current, Factor() );
+                break;
+            case MOD_TOKEN:
+                Match(tt);
+                current = new ModNode( current, Factor() );
                 break;
             default:
                 return current;

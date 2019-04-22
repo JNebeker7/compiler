@@ -19,7 +19,9 @@ const unsigned char POP_EAX = 0x58;
 const unsigned char EAX_TO_MEM = 0xA3; // A3 hex, Add 4 (or 8) byte address value in reverse order
 const unsigned char MEM_TO_EAX = 0xA1; // A1 hex, Add 4 (or 8) byte address value in reverse order
 
-const unsigned char POP_EBX = 0x5B; 
+const unsigned char PUSH_EDX = 0x52;
+
+const unsigned char POP_EBX = 0x5B;
 const unsigned char ADD_EAX_EBX1 = 0x03; 
 const unsigned char ADD_EAX_EBX2 = 0xC3; 
 const unsigned char SUB_EAX_EBX1 = 0x2B; 
@@ -261,6 +263,15 @@ void InstructionsClass::PopPopDivPush()
 	Encode(DIV_EAX_EBX1);
 	Encode(DIV_EAX_EBX2);
 	Encode(PUSH_EAX);
+}
+
+void InstructionsClass::PopPopModPush() {
+	Encode(POP_EBX);
+	Encode(POP_EAX);
+	Encode(CDQ);// Necessary to clear the D register for a 64 bit divide.
+	Encode(DIV_EAX_EBX1);
+	Encode(DIV_EAX_EBX2);
+	Encode(PUSH_EDX);
 }
 
 void InstructionsClass::PopPopComparePush(unsigned char relational_operator)

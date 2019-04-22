@@ -32,7 +32,8 @@ public:
 	void PopPopAddPush(); // Puts resulting integer on stack
 	void PopPopSubPush(); 
 	void PopPopMulPush(); 
-	void PopPopDivPush(); 
+	void PopPopDivPush();
+	void PopPopModPush();
 
 	// Relational Operators
 	void PopPopComparePush(unsigned char relational_operator); 

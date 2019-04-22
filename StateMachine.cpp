@@ -70,6 +70,8 @@ StateMachineClass::StateMachineClass() {
 	mLegalMoves[TIMES_STATE][STAR_CHAR] = EXPONENT_STATE;
 	// / Divide
 	mLegalMoves[START_STATE][DIVIDE_CHAR] = DIVIDE_STATE;
+	// % Mod
+	mLegalMoves[START_STATE][MOD_CHAR] = MOD_STATE;
 	// EOF
 	mLegalMoves[START_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
 
@@ -127,6 +129,7 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[TIMES_STATE] = TIMES_TOKEN;
 	mCorrespondingTokenTypes[EXPONENT_STATE] = EXPONENT_TOKEN;
 	mCorrespondingTokenTypes[DIVIDE_STATE] = DIVIDE_TOKEN;
+	mCorrespondingTokenTypes[MOD_STATE] = MOD_TOKEN; // mod
 	mCorrespondingTokenTypes[LESSEQUAL_STATE] = LESSEQUAL_TOKEN;
 	mCorrespondingTokenTypes[GREATEREQUAL_STATE] = GREATEREQUAL_TOKEN;
 	mCorrespondingTokenTypes[NOTEQUAL_STATE] = NOTEQUAL_TOKEN;
@@ -164,6 +167,7 @@ MachineState StateMachineClass::UpdateState(char currentCharacter,
 		case ';': charType = SEMICOLON_CHAR; break;
 		case '/': charType = DIVIDE_CHAR; break;
 		case '*': charType = STAR_CHAR; break;
+		case '%': charType = MOD_CHAR; break; // mod
 		case '!': charType = NOT_CHAR; break;
 		case '&': charType = AMPERSAND_CHAR; break;
 		case '|': charType = LINEBAR_CHAR; break;
