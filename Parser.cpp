@@ -114,9 +114,30 @@ AssignmentStatementNode * ParserClass::AssignmentStatement() {
 CoutStatementNode * ParserClass::CoutStatement() {
     Match(COUT_TOKEN);
     Match(INSERTION_TOKEN);
-    ExpressionNode * expressionNode = Expression();
+    CoutStatementNode * coutStatementNode = new CoutStatementNode();
+    coutStatementNode->AddExpression(Expression());
     Match(SEMICOLON_TOKEN);
-    CoutStatementNode * coutStatementNode = new CoutStatementNode(expressionNode);
+
+    // TokenType tt;
+
+    // while(true) {
+    //     tt = mScanner->PeekNextToken().GetTokenType();
+    //     cout << "tt = " << tt << endl;
+    //     if (tt == ENDL_TOKEN) {
+    //         Match(ENDL_TOKEN);
+    //         break;
+    //     } else if (tt == SEMICOLON_TOKEN) {
+    //         cout << "matched semicolon" << endl;
+    //         Match(SEMICOLON_TOKEN);
+    //         break;
+    //     } else {
+    //         cout << "after insertion" << endl;
+    //         Match(tt);
+    //         coutStatementNode->AddExpression(Expression());
+    //         // Match(INSERTION_TOKEN);
+    //     }
+    // }
+
     return coutStatementNode;
 }
 

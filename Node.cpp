@@ -93,14 +93,24 @@ void AssignmentStatementNode::Code(InstructionsClass &code) {
 
 CoutStatementNode::~CoutStatementNode() {
     // MSG("COUTSTATEMENTNODE DELETE");
-    delete this->mExpressionNode;
+    for (int i = 0; i < mExpressionNode.size(); i++) {
+        delete mExpressionNode[i];
+    }
+}
+void CoutStatementNode::AddExpression(ExpressionNode *expression) {
+    this->mExpressionNode.push_back( expression );
 }
 void CoutStatementNode::Interpret() {
-    cout << this->mExpressionNode->Evaluate() << endl;
+    for (int i = 0; i < mExpressionNode.size(); i++) {
+        cout << mExpressionNode[i]->Evaluate() << endl;
+    }
 }
 void CoutStatementNode::Code(InstructionsClass &code) {
-    this->mExpressionNode->CodeEvaluate(code);
-    code.PopAndWrite();
+
+    for (int i = 0; i < mExpressionNode.size(); i++) {
+        mExpressionNode[i]->CodeEvaluate(code);
+        code.PopAndWrite();
+    }
 }
 
 
@@ -147,7 +157,15 @@ void WhileStatementNode::Interpret() {
     }
 }
 void WhileStatementNode::Code(InstructionsClass &code) {
-
+    unsigned char * address0 = code.GetAddress();
+	this->mExpression->CodeEvaluate(code);
+	unsigned char * afterWhile = code.SkipIfZeroStack();
+	unsigned char * address1 = code.GetAddress();
+	this->mStatement->Code(code);
+	unsigned char * start = code.Jump();
+	unsigned char * address2 = code.GetAddress();
+	code.SetOffset(afterWhile, (int)(address2 - address1));
+	code.SetOffset(start, (int)(address0 - address2));
 }
 
 

@@ -19,6 +19,7 @@ void TokenClass::CheckReserved() {
     if ( mLexeme == "main" ) mType = MAIN_TOKEN;
     if ( mLexeme == "int" ) mType = INT_TOKEN;
     if ( mLexeme == "cout" ) mType = COUT_TOKEN;
+    if ( mLexeme == "endl" ) mType = ENDL_TOKEN;
     if ( mLexeme == "if" ) mType = IF_TOKEN;
     if ( mLexeme == "else" ) mType = ELSE_TOKEN;
     if ( mLexeme == "while" ) mType = WHILE_TOKEN;

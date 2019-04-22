@@ -140,13 +140,17 @@ private:
 // // 9
 class CoutStatementNode : public StatementNode {
 public:
-    CoutStatementNode(ExpressionNode * express)
-                        : mExpressionNode(express) {};
+    CoutStatementNode() {}
+    CoutStatementNode(ExpressionNode * express) {
+        this->mExpressionNode.push_back(express);
+    };
     ~CoutStatementNode();
+    void AddExpression(ExpressionNode *expression);
     virtual void Interpret();
     virtual void Code( InstructionsClass &code );
 private:
-    ExpressionNode * mExpressionNode;
+    // ExpressionNode * mExpressionNode;
+    vector<ExpressionNode *> mExpressionNode;
 };
 
 class IfStatementNode : public StatementNode {

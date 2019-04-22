@@ -3,6 +3,10 @@ void main()
 	int sum;
 	sum = 3;
 	sum += 2;
-	cout << sum;
+	if(sum == 5) {
+		cout << sum;
+		// cout << endl;
+		// cout << sum << endl;
+	}
 }
 
