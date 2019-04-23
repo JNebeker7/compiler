@@ -99,6 +99,12 @@ AssignmentStatementNode * ParserClass::AssignmentStatement() {
         Match(SEMICOLON_TOKEN);
         PlusEqualNode * plusEqualNode = new PlusEqualNode(identifierNode, expressionNode);
         return plusEqualNode;
+    } else if ( tt == MINUSEQUAL_TOKEN ) {
+        Match(tt);
+        expressionNode = Expression();
+        Match(SEMICOLON_TOKEN);
+        MinusEqualNode * minusEqualNode = new MinusEqualNode(identifierNode, expressionNode);
+        return minusEqualNode;
     } else if ( tt == ASSIGNMENT_TOKEN ) {
         Match(tt);
         expressionNode = Expression();
@@ -115,8 +121,6 @@ CoutStatementNode * ParserClass::CoutStatement() {
     Match(COUT_TOKEN);
     Match(INSERTION_TOKEN);
     CoutStatementNode * coutStatementNode = new CoutStatementNode();
-    // coutStatementNode->AddExpression(Expression());
-    // Match(SEMICOLON_TOKEN);
     TokenType tt;
 
     while(true) {

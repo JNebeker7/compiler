@@ -62,6 +62,8 @@ StateMachineClass::StateMachineClass() {
 	mLegalMoves[START_STATE][PLUS_CHAR] = PLUS_STATE;
 	// += Plus Equal
 	mLegalMoves[PLUS_STATE][EQUAL_CHAR] = PLUSEQUAL_STATE;
+	// -= Minus Equal
+	mLegalMoves[MINUS_STATE][EQUAL_CHAR] = MINUSEQUAL_STATE;
 	// - Minus
 	mLegalMoves[START_STATE][MINUS_CHAR] = MINUS_STATE;
 	// * Times
@@ -125,6 +127,7 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[SEMICOLON_STATE] = SEMICOLON_TOKEN;
 	mCorrespondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
 	mCorrespondingTokenTypes[PLUSEQUAL_STATE] = PLUSEQUAL_TOKEN;
+	mCorrespondingTokenTypes[MINUSEQUAL_STATE] = MINUSEQUAL_TOKEN;
 	mCorrespondingTokenTypes[MINUS_STATE] = MINUS_TOKEN;
 	mCorrespondingTokenTypes[TIMES_STATE] = TIMES_TOKEN;
 	mCorrespondingTokenTypes[EXPONENT_STATE] = EXPONENT_TOKEN;

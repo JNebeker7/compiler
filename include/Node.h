@@ -26,6 +26,7 @@ class IntegerNode;
 class BinaryOperatorNode;
 class PlusNode;
 class PlusEqualNode;
+class MinusEqualNode;
 class MinusNode;
 class TimesNode;
 class ExponentNode;
@@ -255,6 +256,14 @@ public:
         : AssignmentStatementNode(left, right) {};
     virtual void Interpret();
     virtual void Code(InstructionsClass &code);
+};
+
+class MinusEqualNode : public AssignmentStatementNode {
+public:
+    MinusEqualNode(IdentifierNode * left, ExpressionNode * right)
+        : AssignmentStatementNode(left, right) {};
+    virtual void Interpret();
+    virtual void Code(InstructionsClass &code);        
 };
 
 // chapter 5

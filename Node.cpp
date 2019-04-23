@@ -129,18 +129,18 @@ void IfStatementNode::Interpret() {
     }
 }
 void IfStatementNode::Code(InstructionsClass &code) {
-    this->mExpression->CodeEvaluate(code);
-    unsigned char * jumpAddress = code.SkipIfZeroStack();
-	unsigned char * address1 = code.GetAddress();
-    this->mStatement1->Code(code);
-    unsigned char * endBlock1 = code.Jump();
-    unsigned char * address2 = code.GetAddress();
-    code.SetOffset(jumpAddress, (int)(address2 - address1));
+    this->mExpression->CodeEvaluate(code); // code expression
+    unsigned char * jumpAddress = code.SkipIfZeroStack(); // note where we are to fill in later // jumps over that statement
+	unsigned char * address1 = code.GetAddress(); // note the beggining of the jump
+    this->mStatement1->Code(code); // code statement 1
+    unsigned char * jumpAddress2 = code.Jump(); // note where we are to fill in later
+    unsigned char * address2 = code.GetAddress(); // end of one jump | beggining of second
+    code.SetOffset(jumpAddress, (int)(address2 - address1)); // fills in the address later from zerostack
 
     if (this->mStatement2 != NULL) {
         this->mStatement2->Code(code);
-        unsigned char * address3 = code.GetAddress();
-        code.SetOffset(endBlock1, (int)(address3 - address2));
+        unsigned char * address3 = code.GetAddress(); // note where we are
+        code.SetOffset(jumpAddress2, (int)(address3 - address2)); // fills in address later from code.Jump()
     }
 }
 
@@ -244,6 +244,17 @@ void PlusEqualNode::Code(InstructionsClass &code) {
     this->getIdentifier()->CodeEvaluate(code);
     this->getExpression()->CodeEvaluate(code);
     code.PopPopAddPush();
+    code.PopAndStore(this->getIdentifier()->GetIndex());
+}
+
+void MinusEqualNode::Interpret() {
+    int new_value = this->getIdentifier()->Evaluate() - this->getExpression()->Evaluate();
+    this->getIdentifier()->SetValue(new_value);
+}
+void MinusEqualNode::Code(InstructionsClass &code) {
+    this->getIdentifier()->CodeEvaluate(code);
+    this->getExpression()->CodeEvaluate(code);
+    code.PopPopSubPush();
     code.PopAndStore(this->getIdentifier()->GetIndex());
 }
 
