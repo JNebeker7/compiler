@@ -25,6 +25,7 @@ public:
     CoutStatementNode * CoutStatement();
     IfStatementNode * IfStatement();
     WhileStatementNode * WhileStatement();
+    DoWhileStatementNode * DoWhileStatement();
     IdentifierNode * Identifier();
     ExpressionNode * Integer();
     ExpressionNode * Expression();

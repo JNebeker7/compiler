@@ -59,6 +59,9 @@ StatementNode * ParserClass::Statement() {
     } else if ( tt == WHILE_TOKEN ) {
         WhileStatementNode * whileStatement = WhileStatement();
         return whileStatement;
+    } else if ( tt == DO_TOKEN ) {
+        DoWhileStatementNode * doWhileStatement = DoWhileStatement();
+        return doWhileStatement;
     } else if ( tt == LCURLY_TOKEN ) {
         BlockNode * blockNode = Block();
         return blockNode;
@@ -170,6 +173,23 @@ WhileStatementNode * ParserClass::WhileStatement() {
     StatementNode * statementNode = Statement();
     WhileStatementNode * whileStatementNode = new WhileStatementNode(expressionNode, statementNode);
     return whileStatementNode;
+}
+
+DoWhileStatementNode * ParserClass::DoWhileStatement() {
+    Match(DO_TOKEN);
+    StatementNode * statementNode = Statement();
+    Match(WHILE_TOKEN);
+    Match(LPAREN_TOKEN);
+    ExpressionNode * expressionNode = Expression();
+    Match(RPAREN_TOKEN);
+    Match(SEMICOLON_TOKEN);
+    DoWhileStatementNode * doWhileStatement = new DoWhileStatementNode(expressionNode, statementNode);
+    return doWhileStatement;
+    // do
+    // {
+    //     /* mStatement->Interpret(); */
+    // } while (/* mExpression->Evaluate() */);
+    
 }
 
 IdentifierNode * ParserClass::Identifier() {

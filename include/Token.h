@@ -10,7 +10,7 @@ using namespace std;
 enum TokenType {
     // Reserved Words:
     VOID_TOKEN, MAIN_TOKEN, INT_TOKEN, COUT_TOKEN, ENDL_TOKEN,
-    IF_TOKEN, ELSE_TOKEN, WHILE_TOKEN, REPEAT_TOKEN,
+    IF_TOKEN, ELSE_TOKEN, WHILE_TOKEN, REPEAT_TOKEN, DO_TOKEN,
     // Relational Operators:
     LESS_TOKEN, LESSEQUAL_TOKEN, GREATER_TOKEN, GREATEREQUAL_TOKEN, EQUAL_TOKEN, NOTEQUAL_TOKEN,
     // Other Operators:
@@ -26,7 +26,7 @@ enum TokenType {
 // IMPORTANT: The list above and the list below MUST be kept in sync.
 const string gTokenTypeNames[] = {
     "VOID", "MAIN", "INT", "COUT", "ENDL",
-    "IF_TOKEN", "ELSE_TOKEN", "WHILE_TOKEN", "REPEAT_TOKEN",
+    "IF_TOKEN", "ELSE_TOKEN", "WHILE_TOKEN", "REPEAT_TOKEN", "DO_TOKEN",
     "LESS", "LESSEQUAL", "GREATER", "GREATEREQUAL", "EQUAL", "NOTEQUAL",
     "INSERTION", "ASSIGNMENT", "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD",
     "EXPONENT", "PLUSEQUAL", "MINUSEQUAL",

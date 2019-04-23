@@ -24,6 +24,7 @@ void TokenClass::CheckReserved() {
     if ( mLexeme == "else" ) mType = ELSE_TOKEN;
     if ( mLexeme == "while" ) mType = WHILE_TOKEN;
     if ( mLexeme == "repeat" ) mType = REPEAT_TOKEN;
+    if ( mLexeme == "do" ) mType = DO_TOKEN;
 }
 
 ostream & operator<<(ostream & out, const TokenClass & tc) {

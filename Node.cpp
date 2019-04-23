@@ -108,8 +108,12 @@ void CoutStatementNode::Interpret() {
 void CoutStatementNode::Code(InstructionsClass &code) {
 
     for (int i = 0; i < mExpressionNode.size(); i++) {
-        mExpressionNode[i]->CodeEvaluate(code);
-        code.PopAndWrite();
+        if (mExpressionNode[i]) {
+            mExpressionNode[i]->CodeEvaluate(code);
+            code.PopAndWrite();
+        } else {
+            code.WriteEndl();
+        }
     }
 }
 
@@ -182,6 +186,27 @@ void RepeatNode::Interpret() {
 }
 void RepeatNode::Code(InstructionsClass &code) {
 
+}
+
+DoWhileStatementNode::~DoWhileStatementNode() {
+    delete this->mExpression;
+    delete this->mStatement;
+}
+void DoWhileStatementNode::Interpret() {
+    do
+    {
+        mStatement->Interpret();
+    } while ( mExpression->Evaluate() );
+}
+void DoWhileStatementNode::Code(InstructionsClass &code) {
+    unsigned char * a0 = code.GetAddress(); // note the beggining
+	this->mStatement->Code(code);
+	unsigned char * a1 = code.GetAddress(); // node the end
+	this->mExpression->CodeEvaluate(code); //
+	unsigned char * jumpAddress = code.SkipIfZeroStack(); // note where we are to fill in later
+    // unsigned char * jumpAddress2 = code.Jump(); // note where we are to fill in later
+	code.SetOffset(jumpAddress, (int)(a1-a0));
+	// code.SetOffset(jumpAddress2, (int)(a1 - a0));
 }
 
 

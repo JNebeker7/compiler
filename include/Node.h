@@ -32,6 +32,7 @@ class TimesNode;
 class ExponentNode;
 class DivideNode;
 class RepeatNode;
+class DoWhileStatementNode;
 class LessNode;
 class LessEqualNode;
 class GreaterNode;
@@ -186,6 +187,18 @@ public:
     RepeatNode(ExpressionNode * expression, StatementNode * statement)
         : mExpression(expression), mStatement(statement) {};
     ~RepeatNode();
+    virtual void Interpret();
+    virtual void Code(InstructionsClass &code);
+private:
+    ExpressionNode * mExpression;
+    StatementNode * mStatement;
+};
+
+class DoWhileStatementNode : public StatementNode {
+public:
+    DoWhileStatementNode(ExpressionNode * expression, StatementNode * statement)
+        : mExpression(expression), mStatement(statement) {};
+    ~DoWhileStatementNode();
     virtual void Interpret();
     virtual void Code(InstructionsClass &code);
 private:
