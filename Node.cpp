@@ -102,7 +102,11 @@ void CoutStatementNode::AddExpression(ExpressionNode *expression) {
 }
 void CoutStatementNode::Interpret() {
     for (int i = 0; i < mExpressionNode.size(); i++) {
-        cout << mExpressionNode[i]->Evaluate() << endl;
+        if ( mExpressionNode[i] ) {
+            cout << mExpressionNode[i]->Evaluate();
+        } else {
+            cout << endl;
+        }
     }
 }
 void CoutStatementNode::Code(InstructionsClass &code) {
@@ -199,14 +203,16 @@ void DoWhileStatementNode::Interpret() {
     } while ( mExpression->Evaluate() );
 }
 void DoWhileStatementNode::Code(InstructionsClass &code) {
-    unsigned char * a0 = code.GetAddress(); // note the beggining
 	this->mStatement->Code(code);
-	unsigned char * a1 = code.GetAddress(); // node the end
+    unsigned char * a0 = code.GetAddress(); // note the beggining
 	this->mExpression->CodeEvaluate(code); //
-	unsigned char * jumpAddress = code.SkipIfZeroStack(); // note where we are to fill in later
-    // unsigned char * jumpAddress2 = code.Jump(); // note where we are to fill in later
-	code.SetOffset(jumpAddress, (int)(a1-a0));
-	// code.SetOffset(jumpAddress2, (int)(a1 - a0));
+	unsigned char * expressionjump = code.SkipIfZeroStack(); // note where we are to fill in later
+	unsigned char * a1 = code.GetAddress(); // node the end
+    this->mStatement->Code(code);
+    unsigned char * loopJump = code.Jump(); // note where we are to fill in later
+    unsigned char * a2 = code .GetAddress();
+	code.SetOffset(expressionjump, (int)(a2-a1));
+	code.SetOffset(loopJump, (int)(a0-a2));
 }
 
 

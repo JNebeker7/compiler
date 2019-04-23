@@ -122,29 +122,21 @@ AssignmentStatementNode * ParserClass::AssignmentStatement() {
 
 CoutStatementNode * ParserClass::CoutStatement() {
     Match(COUT_TOKEN);
-    Match(INSERTION_TOKEN);
     CoutStatementNode * coutStatementNode = new CoutStatementNode();
     TokenType tt;
 
-    while(true) {
+    while(tt != SEMICOLON_TOKEN) {
+        Match(INSERTION_TOKEN);
         tt = mScanner->PeekNextToken().GetTokenType();
-        if (tt == SEMICOLON_TOKEN) {
-            Match(SEMICOLON_TOKEN);
-            break;
-        }
         if (tt == ENDL_TOKEN) {
             Match(ENDL_TOKEN);
-            Match(SEMICOLON_TOKEN);
-            break;
+            coutStatementNode->AddExpression(NULL);
         } else {
             coutStatementNode->AddExpression(Expression());
-            tt = mScanner->PeekNextToken().GetTokenType();
-            if (tt == INSERTION_TOKEN) {
-                Match(INSERTION_TOKEN);
-            }
         }
+        tt = mScanner->PeekNextToken().GetTokenType();
     }
-
+    Match(SEMICOLON_TOKEN);
     return coutStatementNode;
 }
 
