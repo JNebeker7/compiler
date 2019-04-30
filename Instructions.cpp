@@ -274,6 +274,16 @@ void InstructionsClass::PopPopModPush() {
 	Encode(PUSH_EDX);
 }
 
+void InstructionsClass::PopPushPush() {
+	Encode(POP_EAX);
+	Encode(PUSH_EAX);
+	Encode(PUSH_EAX);
+}
+
+void InstructionsClass::Pop() {
+	Encode(POP_EAX);
+}
+
 void InstructionsClass::PopPopComparePush(unsigned char relational_operator)
 {
 	Encode(POP_EBX);

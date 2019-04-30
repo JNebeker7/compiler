@@ -69,9 +69,21 @@ DeclarationStatementNode::~DeclarationStatementNode() {
 }
 void DeclarationStatementNode::Interpret() {
     this->mIdentifierNode->DeclareVariable();
+    // this->mExpression->Evaluate();
+    // int index = this->mIdentifierNode->GetIndex();
+    if (this->mExpression) {
+        int val = this->mExpression->Evaluate();
+        this->mIdentifierNode->SetValue(val);
+    }
+
 }
 void DeclarationStatementNode::Code(InstructionsClass &code) {
     this->mIdentifierNode->DeclareVariable();
+    if (this->mExpression) {
+        this->mExpression->CodeEvaluate(code);
+        int index = this->mIdentifierNode->GetIndex();
+        code.PopAndStore(index);
+    }
 }
 
 
@@ -189,7 +201,20 @@ void RepeatNode::Interpret() {
     }
 }
 void RepeatNode::Code(InstructionsClass &code) {
-
+	this->mExpression->CodeEvaluate(code);
+    unsigned char * address0 = code.GetAddress();
+    code.PopPushPush();
+	unsigned char * jumpAddress1 = code.SkipIfZeroStack();
+	unsigned char * address1 = code.GetAddress();
+    code.PushValue(1);
+    code.PopPopSubPush();
+	this->mStatement->Code(code);
+	unsigned char * jumpAddress2 = code.Jump();
+	unsigned char * address2 = code.GetAddress();
+    
+	code.SetOffset(jumpAddress2, (int)(address0 - address2)); // goes backward
+	code.SetOffset(jumpAddress1, (int)(address2 - address1)); // skips over the block if done
+    code.Pop();
 }
 
 DoWhileStatementNode::~DoWhileStatementNode() {

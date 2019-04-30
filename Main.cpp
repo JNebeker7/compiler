@@ -55,35 +55,6 @@ bool test_symbols() {
 	return true;
 }
 
-bool test_node() {
-	MSG("\nTest Nodes");
-	SymbolTable symbolTable = SymbolTable();
-
-	// cout << sum;
-	IntegerNode * intCoutNode = new IntegerNode(11);
-	CoutStatementNode * coutStatement = new CoutStatementNode(intCoutNode);
-
-	// sum = int + int;
-	IntegerNode * intNode = new IntegerNode(11);
-	IdentifierNode * identifierInteger = new IdentifierNode("y", &symbolTable);
-	AssignmentStatementNode * assignmentStatement = new AssignmentStatementNode(identifierInteger, intNode);
-
-	// int sum;
-	IdentifierNode * indentifierDeclaration = new IdentifierNode("x", &symbolTable);
-	DeclarationStatementNode * declarationStatement = new DeclarationStatementNode(indentifierDeclaration);
-
-	StatementGroupNode * statementGroup = new StatementGroupNode();
-	statementGroup->AddStatement(coutStatement);
-	statementGroup->AddStatement(assignmentStatement);
-	statementGroup->AddStatement(declarationStatement);
-	
-	BlockNode * block = new BlockNode(statementGroup);
-	ProgramNode * program = new ProgramNode(block);
-	StartNode * start = new StartNode(program);
-
-	delete start;
-	return true;
-}
 
 bool test_expressions() {
 	MSG("\nTesting Expressions and Binary Operators");
@@ -147,12 +118,11 @@ bool test_code() {
 }
 
 int main() {
-	const int tests_count = 9;
+	const int tests_count = 8;
 	Tests tests[tests_count] = {
 		test_token_type,
 		test_scanner,
 		test_symbols,
-		test_node,
 		test_expressions,
 		test_parserNoOutput,
 		test_parserWithOutput,

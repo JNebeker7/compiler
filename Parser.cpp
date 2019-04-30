@@ -87,8 +87,16 @@ RepeatNode * ParserClass::Repeat() {
 DeclarationStatementNode * ParserClass::DeclarationStatement() {
     Match(INT_TOKEN);
     IdentifierNode * identifierNode = Identifier();
+    // 
+    TokenType tt = mScanner->PeekNextToken().GetTokenType();
+    ExpressionNode * expression;
+    if (tt == ASSIGNMENT_TOKEN) {
+        Match(tt);
+        expression = Expression();
+        // Match(SEMICOLON_TOKEN);
+    }
     Match(SEMICOLON_TOKEN);
-    DeclarationStatementNode * declarationStatementNode = new DeclarationStatementNode(identifierNode);
+    DeclarationStatementNode * declarationStatementNode = new DeclarationStatementNode(identifierNode, expression);
     return declarationStatementNode;
 }
 

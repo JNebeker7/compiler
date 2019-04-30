@@ -113,13 +113,14 @@ private:
 
 class DeclarationStatementNode : public StatementNode {
 public:
-    DeclarationStatementNode(IdentifierNode * IdentifierNode) 
-                            : mIdentifierNode(IdentifierNode) {};
+    DeclarationStatementNode(IdentifierNode * IdentifierNode, ExpressionNode * expression) 
+                            : mIdentifierNode(IdentifierNode), mExpression(expression) {};
     ~DeclarationStatementNode();
     virtual void Interpret();
     void Code( InstructionsClass &code );
 protected:
     IdentifierNode * mIdentifierNode;
+    ExpressionNode * mExpression;
 };
 
 // // 8

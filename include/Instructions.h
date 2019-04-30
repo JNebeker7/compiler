@@ -35,6 +35,9 @@ public:
 	void PopPopDivPush();
 	void PopPopModPush();
 
+	void PopPushPush();
+	void Pop();
+
 	// Relational Operators
 	void PopPopComparePush(unsigned char relational_operator); 
 		// common code for the relational operators
